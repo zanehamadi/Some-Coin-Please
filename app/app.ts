@@ -20,21 +20,21 @@ app.use(express.json());
 
 // Use CORS in development 
 if (!isProduction) {
-  app.use(cors());
+    app.use(cors());
 }
 
 app.use(helmet({
-  contentSecurityPolicy: false
+    contentSecurityPolicy: false
 }));
 
 app.use(
-  csurf({
-    cookie: {
-      secure: isProduction,
-      sameSite: isProduction && "Lax",
-      httpOnly: true,
-    },
-  })
+    csurf({
+      cookie: {
+        secure: isProduction,
+        sameSite: isProduction && "Lax",
+        httpOnly: true,
+      },
+    })
 );
 
 // Hook routes up to your app, place at the bottom after middleware.
