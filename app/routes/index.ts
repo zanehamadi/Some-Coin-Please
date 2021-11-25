@@ -2,10 +2,10 @@ import express from 'express'
 
 const router = express.Router();
 
-router.get('/hello/world', function(req, res) {
+router.get('/', function(req, res) {
   //@ts-ignore
   res.cookie('XSRF-TOKEN', req.csrfToken());
-  res.send('Hello World!');
+  res.send('HOME!');
 });
 
 export default router;
