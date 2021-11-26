@@ -9,7 +9,7 @@ db.sequelize
 
     app.listen(port, () => console.log(`SCP Backend listening on port ${port}...`));
   })
-  .catch((err) => {
+  .catch((err: any) => {
     console.log('Database connection failure.');
     console.error(err);
   });
