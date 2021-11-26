@@ -14,6 +14,25 @@ interface UserAttributes{
 
 }
 
+
+export interface DefaultScopeUser{
+  id: number;
+  username: string;
+  profile_picture: string;
+  toSafeObject: () => void
+  validatePassword: (password: string) => void
+}
+
+export interface CurrentScopeUser extends DefaultScopeUser{
+  created_at: string;
+  updated_at: string;
+  balance: number;
+}
+
+export interface LoginScopeUser extends CurrentScopeUser{
+  hashedPassword: string;
+}
+
 interface LogInData {
   credential: string;
   password: string;
