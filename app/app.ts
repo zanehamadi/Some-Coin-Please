@@ -35,6 +35,7 @@ app.use(
     csurf({
       cookie: {
         secure: isProduction,
+        //@ts-ignore
         sameSite: isProduction && "Lax",
         httpOnly: true,
       },
@@ -55,7 +56,7 @@ class GeneralError extends Error{
     super(msg)
     this.title = ''
     this.errors = []
-    this.status = null
+    this.status = 0
   }
 }
 // 404 Error creator
@@ -68,7 +69,7 @@ app.use((_req, _res, next) => {
 });
 
 // Sequelize error creator
-app.use((err, _req, _res, next) => {
+app.use((err: GeneralError | ValidationError, _req: any, _res: any, next: any) => {
 
   if (err instanceof ValidationError) {
     const sqlError = new GeneralError("Sequelize Error")
@@ -82,7 +83,7 @@ app.use((err, _req, _res, next) => {
 
 // General Error Handler
 
-app.use((err, _req, res, _next) => {
+app.use((err: GeneralError, _req: any, res: any, _next: any) => {
   res.status(err.status || 500);
   console.error(err);
   res.json({

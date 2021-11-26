@@ -1,9 +1,15 @@
 {
-    "compilerOptions": {
-      "module": "commonjs",
-      "target": "es6",
-      "rootDir": "./",
+  "compilerOptions": {
+      "allowJs": true,
+      "alwaysStrict": true,
       "esModuleInterop": true,
-      "alwaysStrict": true
-    }
-  }
+      "forceConsistentCasingInFileNames": true,
+      "module": "commonjs",
+      "outDir": "./build",
+      "rootDir": "./",
+      "skipLibCheck": true,
+      "strict": true,
+      "target": "es6"
+  }, 
+  "exclude": ["node_nodules"]
+}
