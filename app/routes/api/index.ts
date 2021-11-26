@@ -1,9 +1,11 @@
 import express from 'express'
 const router = express.Router()
+import asyncHandler from 'express-async-handler'
+import {setTokenCookie, restoreUser, requireAuth} from '../../util/auth'
 
-router.post('/test', function(req, res) {
-    res.json({ requestBody: req.body });
-});
+import db from '../../db/models'
+
+const User: any = db.User
 
 
 

@@ -20,7 +20,7 @@ export interface DefaultScopeUser{
   username: string;
   profile_picture: string;
   toSafeObject: () => void
-  validatePassword: (password: string) => void
+  validatePassword: (password: string) => boolean
 }
 
 export interface CurrentScopeUser extends DefaultScopeUser{
