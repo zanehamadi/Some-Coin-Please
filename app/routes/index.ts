@@ -16,7 +16,6 @@ router.get('/', function(req, res) {
 
 router.get('/users', expressAsyncHandler(async(req, res) => {
   const user = await db.User.findAll()
-  console.log('USER:', user)
   res.json(user)
 }))
 
