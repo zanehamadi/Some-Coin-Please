@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser'
 import {environment} from './config'
 import routes from './routes'
 import { ValidationError } from 'sequelize'
+import { arrayBuffer } from 'stream/consumers'
 
 
 
@@ -91,6 +92,9 @@ app.use((err, _req, res, _next) => {
     stack: isProduction ? null : err.stack,
   });
 });
+
+
+
 
 
 export default app;
