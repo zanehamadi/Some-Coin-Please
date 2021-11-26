@@ -47,7 +47,7 @@ app.use(routes)
 
 // Error handling O_O
 
-class GeneralError extends Error{
+export class GeneralError extends Error{
   title: string
   errors: Array<string>
   status: number

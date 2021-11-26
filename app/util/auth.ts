@@ -1,6 +1,9 @@
 import jwt from 'jsonwebtoken'
-import { User } from  '../db/models'
+import db from  '../db/models'
 import {DefaultScopeUser} from '../db/models/user'
+import {GeneralError} from '../app'
+
+const User: any = db.User
 
 interface JWTConfigInterface{
   secret: string;
@@ -10,7 +13,7 @@ interface JWTConfigInterface{
 const { jwtConfig } = require('../config')
 const {secret, expiresIn}: JWTConfigInterface = jwtConfig;
 
-const setTokenCookie = (res:any, user: DefaultScopeUser) => {
+export const setTokenCookie = (res:any, user: DefaultScopeUser) => {
     const token: string = jwt.sign(
       { data: user.toSafeObject() },
       secret,
@@ -32,7 +35,7 @@ const setTokenCookie = (res:any, user: DefaultScopeUser) => {
 
 
 
-const restoreUser = (req: any, res: any, next: any) => {
+export const restoreUser = (req: any, res: any, next: any) => {
   
   interface CookieTypes{
     token: string;
@@ -59,18 +62,23 @@ const restoreUser = (req: any, res: any, next: any) => {
     });
 };
 
-const requireAuth = [
+
+
+export const requireAuth = [
   restoreUser,
-  function (req, res, next) {
+  function (req: any, res:any, next: any) {
     if (req.user) return next();
 
-    const err = new Error('Unauthorized');
+    const err = new GeneralError('Unauthorized');
     err.title = 'Unauthorized';
     err.errors = ['Unauthorized'];
     err.status = 401;
     return next(err);
   }
 ];
+
+
+
   
 
 
