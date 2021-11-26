@@ -30,7 +30,8 @@ module.exports = {
       },
       balance: {
         type: Sequelize.DECIMAL(10,2),
-        allowNull: false
+        allowNull: false,
+        defaultValue: 0.00
       },
       createdAt: {
         allowNull: false,

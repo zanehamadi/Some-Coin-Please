@@ -1,6 +1,8 @@
 'use strict';
 
 import {Model, Optional} from 'sequelize'
+import bcrypt from 'bcryptjs'
+
 
 interface UserAttributes{
   id: number;
@@ -12,20 +14,50 @@ interface UserAttributes{
 
 }
 
-//  Because we might not get an ID from the frontend, and sql generates it
+interface LogInData {
+  credential: string;
+  password: string;
+}
 
 interface UserCreationAttribute extends Optional<UserAttributes, "id">{}
 
 module.exports = (sequelize: any, DataTypes: any) => {
   class User extends Model<UserAttributes, UserCreationAttribute> implements UserAttributes{
-    id!: number; //! === not nullable
+    id!: number; 
     username!: string;
     email!: string;
     hashedPassword!: string;
     profile_picture!: string;
     balance!: number;
     static associate(models: any) {
-      // define association here
+    }
+    toSafeObject = () => {
+      const {id,username,email} = this;
+      return {id, username, email}
+    }
+
+    validatePassword = (password: string) => {
+      return bcrypt.compareSync(password, this.hashedPassword)
+    }
+
+    static async getUserByPk(id: number){
+      return await User.scope('currentUser').findByPk(id)
+    }
+
+    static async login(userData: LogInData){
+      const {credential, password} = userData
+      const { Op } = require('sequelize')
+      const user = await User.scope('loginUser').findOne({
+        where: {
+          [Op.or]: {
+            username: credential,
+            email: credential
+          }
+        }
+      })
+      if(user && user.validatePassword(password)){
+        return await User.scope('currentUser').findByPk(user.id)
+      }
     }
   };
   User.init({
@@ -38,12 +70,20 @@ module.exports = (sequelize: any, DataTypes: any) => {
     username: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
+      validate: {
+        len: [1,15],
+      }
     },
     email: {
       type: DataTypes.STRING,
       unique: true,
       allowNull: false,
+      validate: {
+        len: [5, 75],
+        isEmail: true,
+
+      }
       
     },
     hashedPassword: {
@@ -57,6 +97,9 @@ module.exports = (sequelize: any, DataTypes: any) => {
     balance: {
       type: DataTypes.DECIMAL,
       allowNull: false,
+      validate: {
+        min: 0
+      }
     }
 }, {
     defaultScope: {
