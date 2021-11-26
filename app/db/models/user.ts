@@ -19,6 +19,14 @@ interface LogInData {
   password: string;
 }
 
+interface SignUpData{
+  username: string;
+  email: string;
+  profile_picture: string;
+  password: string;
+
+}
+
 interface UserCreationAttribute extends Optional<UserAttributes, "id">{}
 
 module.exports = (sequelize: any, DataTypes: any) => {
@@ -58,6 +66,22 @@ module.exports = (sequelize: any, DataTypes: any) => {
       if(user && user.validatePassword(password)){
         return await User.scope('currentUser').findByPk(user.id)
       }
+    }
+
+    static async signUp(userData: SignUpData){
+      let {username, email, password, profile_picture} = userData
+      const hashedPassword = bcrypt.hashSync(password)
+      if(!profile_picture){
+        let profile_picture = 'https://i.imgur.com/Os2MTOy.png'
+      }
+      const user: any = await User.create({
+        username,
+        email,
+        hashedPassword,
+        profile_picture,
+        balance: 0
+      })
+      return await User.scope('currentUser').findByPk(user.id);
     }
   };
   User.init({
