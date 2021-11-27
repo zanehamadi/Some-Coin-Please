@@ -1,13 +1,11 @@
 import express from 'express'
 const router = express.Router()
-import asyncHandler from 'express-async-handler'
-import {setTokenCookie, restoreUser, requireAuth} from '../../util/auth'
+import sessionRouter from './session.js';
+import usersRouter  from './users.js';
 
-import db from '../../db/models'
+router.use('/session', sessionRouter);
 
-const User: any = db.User
-
-
+router.use('/users', usersRouter);
 
 export default router
 
