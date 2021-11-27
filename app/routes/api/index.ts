@@ -1,7 +1,7 @@
 import express from 'express'
 const router = express.Router()
-import sessionRouter from './session.js';
-import usersRouter  from './users.js';
+import sessionRouter from './session';
+import usersRouter  from './users';
 
 router.use('/session', sessionRouter);
 

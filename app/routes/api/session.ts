@@ -4,7 +4,7 @@ import { setTokenCookie, restoreUser } from '../../util/auth';
 import db  from '../../db/models';
 import { GeneralError } from '../../app';
 
-const User: any = db.users
+const User: any = db.User
 
 const router: any = express.Router();
 
@@ -36,6 +36,32 @@ router.post(
         user,
       });
     }),
-  );
+);
+
+
+router.delete(
+    '/',
+    (_req: any, res:any) => {
+      res.clearCookie('token');
+      return res.json({ message: 'success' });
+    }
+);
+
+
+
+router.get(
+    '/',
+    restoreUser,
+    (req: any, res:any) => {
+      const { user } = req;
+      if (user) {
+        return res.json({
+          user: user.toSafeObject()
+        });
+      } else return res.json({});
+    }
+);
+
+
 
 export default router
