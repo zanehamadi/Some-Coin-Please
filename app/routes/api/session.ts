@@ -3,6 +3,8 @@ import asyncHandler from 'express-async-handler';
 import { setTokenCookie, restoreUser } from '../../util/auth';
 import db  from '../../db/models';
 import { GeneralError } from '../../app';
+import { check } from 'express-validator';
+import {handleValidationErrors}  from '../../util/validation';
 
 const User: any = db.User
 
@@ -14,8 +16,21 @@ interface UserCredentials{
 }
 
 
+const validateLogin: Array<any> = [
+  check('credential')
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage('Please provide a valid email or username.'),
+  check('password')
+    .exists({ checkFalsy: true })
+    .withMessage('Please provide a password.'),
+  handleValidationErrors,
+];
+
+
 router.post(
     '/',
+    validateLogin,
     asyncHandler(async (req: any, res:any, next:any) => {
 
       const { credential, password }: UserCredentials = req.body;
