@@ -115,7 +115,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
       allowNull: false,
       unique: true,
       validate: {
-        len: [1,15],
+        len: [3,15],
       }
     },
     email: {
@@ -123,7 +123,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
       unique: true,
       allowNull: false,
       validate: {
-        len: [5, 75],
+        len: [5, 345],
         isEmail: true,
 
       }
