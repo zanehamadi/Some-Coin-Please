@@ -1,6 +1,6 @@
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import {CurrentUser} from 'interfaces'
+import {CurrentUser, ButtonStyling} from 'interfaces'
 import LoginFormModal from '../LoginFormModal'
 import SignupFormModal from '../SignupFormModal'
 import { logoutUser, loginUser } from 'store/session';
@@ -23,7 +23,7 @@ function Nav({sessionUser}:NavProps){
     return dispatch(loginUser({ credential, password }))
   }
 
-  const buttonStyling:any = {
+  const buttonStyling:ButtonStyling = {
     color: 'white',
     backgroundColor: '#F3BA2C'
   }
@@ -40,7 +40,7 @@ function Nav({sessionUser}:NavProps){
           <Stack direction="row" spacing={2}>
             <LoginFormModal/>
             <SignupFormModal/>
-            <Button variant="contained" onClick={e => demoFunction(e)}>Demo</Button>
+            <Button variant="contained" onClick={e => demoFunction(e)} style={buttonStyling} >Demo</Button>
           </Stack>
 
     }
