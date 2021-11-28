@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useDispatch} from "react-redux";
 import * as sessionActions from "../../store/session";
+import Button from '@mui/material/Button';
+
 
 
 
@@ -79,7 +81,7 @@ function SignupForm() {
           required
         />
       </label>
-      <button type="submit">Sign Up</button>
+      <Button type="submit" variant="outlined" color={errors.length ? "error" : "secondary"} >Sign Up</Button>
     </form>
   );
 }
