@@ -46,5 +46,18 @@ export interface ButtonStyling{
   backgroundColor: string;
 }
 
+export interface ProductAttributes{
+  id?: number;
+  user_id: number;
+  title: string;
+  description: string;
+  summary: string;
+  funding: number;
+  investors: number;
+  rewards: object;
+  tags: Array<string>;
+  image: string;
+  video: string;
+}
 
 

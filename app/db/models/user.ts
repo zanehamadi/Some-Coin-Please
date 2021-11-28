@@ -4,6 +4,9 @@ import {Model, Optional} from 'sequelize'
 import bcrypt from 'bcryptjs'
 
 
+
+
+
 interface UserAttributes{
   id: number;
   username: string;
@@ -50,13 +53,16 @@ interface UserCreationAttribute extends Optional<UserAttributes, "id">{}
 
 module.exports = (sequelize: any, DataTypes: any) => {
   class User extends Model<UserAttributes, UserCreationAttribute> implements UserAttributes{
+    
     id!: number; 
     username!: string;
     email!: string;
     hashedPassword!: string;
     profile_picture!: string;
     balance!: number;
+
     static associate(models: any) {
+      User.hasMany(models.Product, {foreignKey:'user_id'})
     }
     toSafeObject = () => {
       const {id,username,email} = this;

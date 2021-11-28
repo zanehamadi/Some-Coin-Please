@@ -5,6 +5,7 @@ import Home from './components/Home'
 import * as sessionActions from "./store/session";
 import { CurrentUser, State } from 'interfaces';
 import Nav from "components/Nav";
+import ProductForm from "components/ProductForm";
 // import { createTheme} from '@mui/material/styles';
 
 
@@ -47,6 +48,7 @@ function App() {
     <Nav sessionUser={sessionUser}/>
       <Routes>
         <Route path='/'  element={<Home/>} />
+        <Route path='/postproduct' element={<ProductForm/>} />
       </Routes>
     </>
     :

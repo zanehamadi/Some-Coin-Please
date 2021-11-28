@@ -20,6 +20,7 @@ const app = express();
 // Utilize middleware and other techs
 app.use(morgan('dev'));
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // Use CORS in development 

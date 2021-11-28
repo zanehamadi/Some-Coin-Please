@@ -14,7 +14,7 @@ function SignupForm() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [profilePicture, setProfilePicture] = useState<string>("")
+  const [profilePicture, setProfilePicture] = useState<any>(null)
   const [errors, setErrors] = useState<Array<string>>([]);
 
 
@@ -24,12 +24,26 @@ function SignupForm() {
     if (password === confirmPassword) {
       setErrors([]);
       return dispatch(sessionActions.signupUser({ email, username, password, profilePicture }))
-        .catch(async (res:any) => {
+      .then(() => {
+        setEmail('')
+        setUsername('')
+        setPassword('')
+        setConfirmPassword('')
+        setProfilePicture(null)
+        setErrors([])
+      })  
+      .catch(async (res:any) => {
           const data = await res.json();
           if (data && data.errors) setErrors(data.errors);
         });
     }
     return setErrors(['Confirm Password field must be the same as the Password field']);
+  };
+
+
+  const updateFile = (e:any) => {
+    const file = e.target.files[0];
+    if (file) setProfilePicture(file);
   };
 
   return (
@@ -74,12 +88,8 @@ function SignupForm() {
         />
       </label>
       <label>
-        Profile Picture
-        <input
-          value={profilePicture}
-          onChange={(e) => setProfilePicture(e.target.value)}
-          required
-        />
+        Upload Profile Pic :)
+        <input type="file" onChange={updateFile}/>
       </label>
       <Button type="submit" variant="outlined" color={errors.length ? "error" : "secondary"} >Sign Up</Button>
     </form>
