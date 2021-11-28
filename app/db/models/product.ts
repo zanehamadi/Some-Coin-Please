@@ -55,7 +55,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
       unique: true,
       type: DataTypes.STRING,
       validate: {
-        len: [1,15]
+        len: [1,256]
       }
     },
     description: {

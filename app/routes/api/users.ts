@@ -64,7 +64,7 @@ router.post(
       await setTokenCookie(res, user);
   
       return res.json({
-        user,
+        user
       });
     }),
   );
@@ -75,7 +75,6 @@ router.post(
       const users = await User.findAll({
         include: Product
       })
-      console.log(users[0].Products[0].rewards)
       return res.json({
         users
       })
