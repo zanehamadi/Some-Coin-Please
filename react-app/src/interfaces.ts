@@ -34,5 +34,12 @@ export interface State {
   session: SessionState
 }
 
+export interface SignupCredentials{
+  username: string;
+  email: string;
+  password: string;
+  profilePicture: string;
+}
+
 
 

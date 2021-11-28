@@ -1,5 +1,5 @@
 import { csrfFetch } from './csrf';
-import { CurrentUser, LoginCredentials , ReduxActions} from 'interfaces';
+import { CurrentUser, LoginCredentials , ReduxActions, SignupCredentials} from 'interfaces';
 
 const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';
@@ -12,13 +12,13 @@ const setUser = (user:CurrentUser) => {
   return setUserAction
 };
 
-// const removeUser = () => {
-//   return {
-//     type: REMOVE_USER,
-//   };
-// };
+const removeUser = () => {
+  return {
+    type: REMOVE_USER,
+  };
+};
 
-export const login = (user: LoginCredentials) => async (dispatch:any) => {
+export const loginUser = (user: LoginCredentials) => async (dispatch:any) => {
   const { credential, password } = user;
   const response = await csrfFetch('/api/session', {
     method: 'POST',
@@ -31,6 +31,40 @@ export const login = (user: LoginCredentials) => async (dispatch:any) => {
   dispatch(setUser(data.user));
   return response;
 };
+
+export const restoreUser = () => async (dispatch:any) => {
+  const response = await csrfFetch('/api/session');
+  const data = await response.json();
+  dispatch(setUser(data.user));
+  return response;
+};
+
+
+export const signupUser = (user:SignupCredentials) => async (dispatch:any) => {
+  const { username, email, password, profilePicture } = user;
+  const response = await csrfFetch("/api/users", {
+    method: "POST",
+    body: JSON.stringify({
+      username,
+      email,
+      password,
+      profile_picture:profilePicture
+    }),
+  });
+  const data = await response.json();
+  dispatch(setUser(data.user));
+  return response;
+};
+
+export const logoutUser = () => async (dispatch:any) => {
+  const response = await csrfFetch('/api/session', {
+    method: 'DELETE',
+  });
+  dispatch(removeUser());
+  return response;
+};
+
+
 
 const initialState = { user: null };
 

@@ -6,7 +6,8 @@
     "module": "esnext",
     "lib": [
       "DOM",
-      "ESNext"
+      "ESNext",
+      "es6"
     ],
     "sourceMap": true,
     "importHelpers": true,
@@ -29,7 +30,12 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true
+    "noEmit": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true
+
+
   },
   "include": [
     "src/**/*"
