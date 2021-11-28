@@ -41,5 +41,10 @@ export interface SignupCredentials{
   profilePicture: string;
 }
 
+export interface ButtonStyling{
+  color: string;
+  backgroundColor: string;
+}
+
 
 
