@@ -1,14 +1,11 @@
 import { useState } from "react";
 import { useDispatch} from "react-redux";
-import { useNavigate } from "react-router-dom";
 import * as sessionActions from "../../store/session";
-import { CurrentUser } from "interfaces";
 
-interface SignupFormProps{
-  sessionUser: CurrentUser;
-}
 
-function SignupForm({sessionUser}:SignupFormProps) {
+
+
+function SignupForm() {
 
   const dispatch:any = useDispatch();
   const [email, setEmail] = useState<string>("");
@@ -17,9 +14,8 @@ function SignupForm({sessionUser}:SignupFormProps) {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [profilePicture, setProfilePicture] = useState<string>("")
   const [errors, setErrors] = useState<Array<string>>([]);
-  const navigate = useNavigate()
 
-  if (sessionUser) navigate('/')
+
 
   const handleSubmit = (e:any) => {
     e.preventDefault();

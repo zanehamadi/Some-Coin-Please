@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Route, Routes } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux'
 import Home from './components/Home'
-import SignupForm from './components/SignupForm'
 import * as sessionActions from "./store/session";
 import { CurrentUser, State } from 'interfaces';
 import Nav from "components/Nav";
@@ -23,7 +22,6 @@ function App() {
     <Nav sessionUser={sessionUser}/>
       <Routes>
         <Route path='/'  element={<Home/>}/>
-        <Route path='/signup' element={<SignupForm sessionUser={sessionUser}/>}/>
       </Routes>
     </>
     :

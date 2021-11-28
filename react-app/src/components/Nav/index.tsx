@@ -2,6 +2,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import {CurrentUser} from 'interfaces'
 import LoginFormModal from '../LoginFormModal'
+import SignupFormModal from '../SignupFormModal'
 
 interface NavProps{
   sessionUser: CurrentUser;
@@ -19,7 +20,7 @@ function Nav({sessionUser}:NavProps){
       :
           <Stack direction="row" spacing={2}>
             <LoginFormModal/>
-            {/* <Button>Signup</Button> */}
+            <SignupFormModal/>
           </Stack>
 
     }
