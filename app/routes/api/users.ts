@@ -69,7 +69,18 @@ router.post(
     }),
   );
 
-
+  router.get(
+    '/',
+    asyncHandler(async (req: any, res:any) => {
+      const users = await User.findAll({
+        include: Product
+      })
+      console.log(users[0].Products[0].rewards)
+      return res.json({
+        users
+      })
+    })
+  )
 
 
 

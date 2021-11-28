@@ -1,13 +1,39 @@
 'use strict';
 
-import {Model} from 'sequelize'
+import {Model, Optional} from 'sequelize'
 
 
+interface ProductAttributes{
+  id: number;
+  user_id: number;
+  title: string;
+  description: string;
+  summary: string;
+  funding: number;
+  investors: number;
+  rewards: object;
+  tags: Array<string>;
+  image: string;
+  video: string;
+}
 
+
+interface ProductCreationAttributes extends Optional<ProductAttributes, "id">{}
 
 
 module.exports = (sequelize:any, DataTypes:any) => {
-  class Product extends Model {
+  class Product extends Model<ProductAttributes, ProductCreationAttributes> implements ProductAttributes{
+    id!: number;
+    user_id!: number;
+    title!: string;
+    description!: string;
+    summary!: string;
+    funding!: number;
+    investors!: number;
+    rewards!: object;
+    tags!: Array<string>;
+    image!: string;
+    video!: string;
 
     static associate(models:any) {
       Product.belongsTo(models.User, {foreignKey:'user_id'})
@@ -23,10 +49,6 @@ module.exports = (sequelize:any, DataTypes:any) => {
     user_id: {
       allowNull: false,
       type: DataTypes.INTEGER,
-      references: {
-        model: 'User',
-        key: 'id'
-      }
     },
     title:{
       allowNull: false,
