@@ -5,6 +5,30 @@ import Home from './components/Home'
 import * as sessionActions from "./store/session";
 import { CurrentUser, State } from 'interfaces';
 import Nav from "components/Nav";
+// import { createTheme} from '@mui/material/styles';
+
+
+
+// const theme = createTheme({
+//   palette: {
+//     neutral: {
+//       main: '#F3BA2C',
+//       contrastText: '#fff'
+//     },
+//   },
+// })
+
+
+
+// declare module '@mui/material/styles'{
+//   interface Palette{
+//     neutral: Palette['primary'];
+//   }
+//   interface PaletteOptions {
+//     neutral?: PaletteOptions['primary'];
+//   }
+// }
+
 
 function App() {
   
@@ -12,6 +36,7 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   const sessionUser:CurrentUser = useSelector((state: State) => state.session.user);
   
+
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
@@ -21,12 +46,12 @@ function App() {
     <>
     <Nav sessionUser={sessionUser}/>
       <Routes>
-        <Route path='/'  element={<Home/>}/>
+        <Route path='/'  element={<Home/>} />
       </Routes>
     </>
     :
     <>
-      <Nav sessionUser={sessionUser}/>
+      <Nav sessionUser={sessionUser} />
       <img src="https://c.tenor.com/28DFFVtvNqYAAAAC/loading.gif" alt="loading screen"/>
     </>
   );
