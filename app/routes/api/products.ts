@@ -2,7 +2,7 @@ import express from 'express'
 import asyncHandler from 'express-async-handler';
 import db  from '../../db/models';
 import { check } from 'express-validator';
-
+import {multipleMulterUpload, multiplePublicFileUpload} from '../../awsS3'
 const Product: any = db.Product
 const router = express.Router()
 
@@ -16,8 +16,8 @@ interface ProductAttributes{
   investors: number;
   rewards: object;
   tags: Array<string>;
-  image: string;
-  video: string;
+  image?: string;
+  video?: string;
 }
 
 const validateProduct = [
@@ -54,12 +54,6 @@ const validateProduct = [
   check('tags')
     .exists({checkFalsy: true})
     .withMessage('Please provide at least one tag.'),
-  check('image')
-    .exists({checkFalsy: true})
-    .withMessage('How did you get here?'),
-  check('video')
-    .exists({checkFalsy: true})
-    .withMessage('How did you get here?')
 ]
 
 
@@ -76,9 +70,13 @@ router.get(
 
 router.post(
   '/',
+  multipleMulterUpload("images"),
   validateProduct,
   asyncHandler(async (req:any, res:any) => {
-    const {user_id, title, description, summary, funding, investors, rewards, tags, image, video}: ProductAttributes = req.body
+    const {user_id, title, description, summary, funding, investors, rewards, tags}: ProductAttributes = req.body
+    const images = await multiplePublicFileUpload(req.files);
+    let image = images[0]
+    let video = images[1]
     let product = await Product.create({
       user_id, 
       title, 

@@ -4,6 +4,7 @@ import { setTokenCookie, restoreUser } from '../../util/auth';
 import db  from '../../db/models';
 import { check } from 'express-validator';
 import {handleValidationErrors}  from '../../util/validation';
+import {singleMulterUpload, singlePublicFileUpload} from '../../awsS3'
 
 const User: any = db.User
 const Product: any = db.Product
@@ -13,7 +14,7 @@ interface CreateUserCredentials{
     email: string;
     password: string;
     username: string;
-    profile_picture: string;
+    profile_picture?: string;
 }
 
 
@@ -47,18 +48,16 @@ const validateSignup = [
     .exists({ checkFalsy: true })
     .isLength({ min: 6 })
     .withMessage('Password must be 6 characters or more.'),
-  check('profile_picture')
-    .exists({ checkFalsy: true})
-    .isLength({min: 1})
-    .withMessage('How did you get here?'),
   handleValidationErrors,
 ];
 
 router.post(
     '/',
+    singleMulterUpload("image"),
     validateSignup,
     asyncHandler(async (req: any, res: any) => {
-      const { email, password, username, profile_picture }: CreateUserCredentials = req.body;
+      const { email, password, username}: CreateUserCredentials = req.body;
+      const profile_picture = await singlePublicFileUpload(req.file);
       const user = await User.signUp({ email, username, password, profile_picture });
         
       await setTokenCookie(res, user);
@@ -68,6 +67,7 @@ router.post(
       });
     }),
   );
+
 
   router.get(
     '/',
