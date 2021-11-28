@@ -6,6 +6,7 @@ import { check } from 'express-validator';
 import {handleValidationErrors}  from '../../util/validation';
 
 const User: any = db.User
+const Product: any = db.Product
 const router = express.Router();
 
 interface CreateUserCredentials{
@@ -67,6 +68,8 @@ router.post(
       });
     }),
   );
+
+
 
 
 
