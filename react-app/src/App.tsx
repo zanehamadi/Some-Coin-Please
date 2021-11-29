@@ -36,7 +36,6 @@ function App() {
   const dispatch:any = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   const sessionUser:CurrentUser = useSelector((state: State) => state.session.user);
-  
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
@@ -48,7 +47,7 @@ function App() {
     <Nav sessionUser={sessionUser}/>
       <Routes>
         <Route path='/'  element={<Home/>} />
-        <Route path='/postproduct' element={<ProductForm/>} />
+        <Route path='/postproduct' element={<ProductForm sessionUser={sessionUser}/>} />
       </Routes>
     </>
     :

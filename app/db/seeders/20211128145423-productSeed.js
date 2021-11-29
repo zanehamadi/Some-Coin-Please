@@ -38,7 +38,6 @@ module.exports = {
       rewards:productDummyJSON,
       tags: ['technology', 'fashion'],
       image: 'https://i.imgur.com/ncNGBSm.png',
-      video: 'https://www.youtube.com/watch?v=Rm_aiDpkGmQ'
     }])
   },
 

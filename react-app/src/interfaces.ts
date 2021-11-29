@@ -57,7 +57,6 @@ export interface ProductAttributes{
   rewards: object;
   tags: Array<string>;
   image: string;
-  video: string;
 }
 
 

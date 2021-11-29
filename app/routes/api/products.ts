@@ -2,7 +2,7 @@ import express from 'express'
 import asyncHandler from 'express-async-handler';
 import db  from '../../db/models';
 import { check } from 'express-validator';
-import {multipleMulterUpload, multiplePublicFileUpload} from '../../awsS3'
+import {singleMulterUpload, singlePublicFileUpload} from '../../awsS3'
 const Product: any = db.Product
 const router = express.Router()
 
@@ -17,7 +17,6 @@ interface ProductAttributes{
   rewards: object;
   tags: Array<string>;
   image?: string;
-  video?: string;
 }
 
 const validateProduct = [
@@ -61,7 +60,6 @@ router.get(
   '/',
   asyncHandler(async (req:any, res:any) => {
     const products = await Product.findAll()
-    console.log(products)
     return res.json({
       products
     })
@@ -70,25 +68,34 @@ router.get(
 
 router.post(
   '/',
-  multipleMulterUpload("images"),
+  singleMulterUpload("image"),
   validateProduct,
   asyncHandler(async (req:any, res:any) => {
+
     const {user_id, title, description, summary, funding, investors, rewards, tags}: ProductAttributes = req.body
-    const images = await multiplePublicFileUpload(req.files);
-    let image = images[0]
-    let video = images[1]
+    const image = await singlePublicFileUpload(req.file);
+    console.log('USER_ID:', typeof user_id, user_id)
+    console.log('title',  typeof title, title)
+    console.log('description', typeof description, description)
+    console.log('summary', typeof summary, summary)
+    console.log('funding', typeof funding, funding)
+    console.log('investors', typeof investors, investors)
+    console.log('rewards', typeof rewards, rewards)
+    console.log('tags', typeof tags, tags)
+    console.log('image', typeof image, image)
+
     let product = await Product.create({
-      user_id, 
+      user_id:+user_id, 
       title, 
       description,
       summary,
-      funding,
-      investors,
-      rewards,
-      tags,
-      image,
-      video
+      funding: +funding,
+      investors: +investors,
+      'rewards': JSON.stringify(rewards),
+      tags: Array.from(tags),
+      image
     })
+    
     return res.json(product)
   })
 )
