@@ -74,7 +74,8 @@ function ProductForm({sessionUser}:ProductFormProps){
     setTierDescription('')
   }
 
-  const productCreationHandler = () => {
+  const productCreationHandler = (e:any) => {
+    e.preventDefault()
     const postValidators = []
 
     if(title.length > 256) postValidators.push('Title can not be longer than 256 characters.')
@@ -99,6 +100,9 @@ function ProductForm({sessionUser}:ProductFormProps){
         })
       }
       let tagsArr = Array.from(tags)
+      let tagsString = tagsArr.join(',')
+      console.log('tags string:', tagsString)
+      
 
       return dispatch(createProduct({
         user_id:sessionUser.id, 
@@ -107,7 +111,7 @@ function ProductForm({sessionUser}:ProductFormProps){
         funding:0,
         investors: 0,
         rewards,
-        tags:tagsArr,
+        tags:tagsString,
         summary,
         image
       }))
@@ -193,7 +197,7 @@ function ProductForm({sessionUser}:ProductFormProps){
 
         </div>
 
-        <Button variant="contained" style={{'backgroundColor':primary}} onClick={productCreationHandler} >CREATE</Button>
+        <Button variant="contained" style={{'backgroundColor':primary}} onClick={e => productCreationHandler(e)} >CREATE</Button>
 
       </div>
 

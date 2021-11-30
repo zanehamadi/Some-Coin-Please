@@ -20,8 +20,7 @@ export const createProduct = (productData:ProductAttributes) => async (dispatch:
   formData.append('description', description)
   formData.append('funding',`${funding}`)
   formData.append('investors', `${investors}`)
-  formData.append('rewards', `${rewards}`)
-  // @ts-ignore
+  formData.append('rewards', JSON.stringify(rewards))
   formData.append('tags',  tags)
   formData.append('summary', summary)
 
@@ -44,20 +43,21 @@ export const createProduct = (productData:ProductAttributes) => async (dispatch:
 const initialState = {}
 
 const productReducer = (state = initialState, action:any) => {
+  console.log(action)
   switch(action.type){
     case POST_PRODUCT: {
-      if(!state[action.product.id]){
+      if(!state[action.payload.id]){
         const newState = {
           ...state,
-          [action.product.id]: action.review
+          [action.payload.id]: action.review
         };
         return newState
       }
       return{
         ...state,
-        [action.product.id]: {
-          ...state[action.product.id],
-          ...action.product
+        [action.payload.id]: {
+          ...state[action.payload.id],
+          ...action.payload
         }
       };
     }

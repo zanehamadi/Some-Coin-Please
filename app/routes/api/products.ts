@@ -15,7 +15,7 @@ interface ProductAttributes{
   funding: number;
   investors: number;
   rewards: object;
-  tags: Array<string>;
+  tags: string;
   image?: string;
 }
 
@@ -74,16 +74,6 @@ router.post(
 
     const {user_id, title, description, summary, funding, investors, rewards, tags}: ProductAttributes = req.body
     const image = await singlePublicFileUpload(req.file);
-    console.log('USER_ID:', typeof user_id, user_id)
-    console.log('title',  typeof title, title)
-    console.log('description', typeof description, description)
-    console.log('summary', typeof summary, summary)
-    console.log('funding', typeof funding, funding)
-    console.log('investors', typeof investors, investors)
-    console.log('rewards', typeof rewards, rewards)
-    console.log('tags', typeof tags, tags)
-    console.log('image', typeof image, image)
-
     let product = await Product.create({
       user_id:+user_id, 
       title, 
@@ -91,8 +81,8 @@ router.post(
       summary,
       funding: +funding,
       investors: +investors,
-      'rewards': JSON.stringify(rewards),
-      tags: Array.from(tags),
+      'rewards': rewards,
+      tags: tags.split(','),
       image
     })
     

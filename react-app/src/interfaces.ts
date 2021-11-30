@@ -55,7 +55,7 @@ export interface ProductAttributes{
   funding: number;
   investors: number;
   rewards: object;
-  tags: Array<string>;
+  tags: string;
   image: string;
 }
 
