@@ -1,19 +1,22 @@
 'use strict';
 
-let productDummyJSON = {
-  'tier1':{
+let productDummyJSON = [
+  {
+    'tier': 1,
     'price':1,
     'summary':'Nothing'
   },
-  'tier2':{
+  {
+    'tier':2,
     'price': 10,
     'summary': '20% Discount on future products'
   },
-  'tier3': {
+  {
+    'tier':3,
     'price': 20,
     'summary':'Product prototypes'
   }
-}
+]
 
 productDummyJSON = JSON.stringify(productDummyJSON)
 

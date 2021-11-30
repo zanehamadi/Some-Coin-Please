@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch} from "react-redux";
 import * as sessionActions from "../../store/session";
 import Button from '@mui/material/Button';
+import { loadUsers } from "store/users";
 
 
 
@@ -32,6 +33,9 @@ function SignupForm() {
         setProfilePicture(null)
         setErrors([])
       })  
+      .then(() => {
+        dispatch(loadUsers())
+      })
       .catch(async (res:any) => {
           const data = await res.json();
           if (data && data.errors) setErrors(data.errors);

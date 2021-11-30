@@ -9,8 +9,10 @@ import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import Input from '@mui/material/Input';
-import { createProduct } from 'store/products';
+import { createProduct, loadProducts } from 'store/products';
 import { useDispatch} from "react-redux";
+import { useNavigate } from 'react-router';
+
 
 
 
@@ -23,7 +25,9 @@ function ProductForm({sessionUser}:ProductFormProps){
   const dispatch:any = useDispatch();
   const primary = yellow[700]
   const secondary = blueGrey[700]
-  console.log(primary)
+  const navigate = useNavigate()
+
+
   const [title, setTitle] = useState<string>('')
   const [description, setDescription] = useState<string>('')
   const [summary, setSummary] = useState<string>('')
@@ -72,9 +76,19 @@ function ProductForm({sessionUser}:ProductFormProps){
     setTierCounter(++counter)
     setTierPrice(0)
     setTierDescription('')
+    setRewards(rewardsClone)
   }
 
-  const productCreationHandler = (e:any) => {
+  const clearFunc = () => {
+    setTitle('')
+    setDescription('')
+    setRewards([])
+    setTags(new Set())
+    setSummary('')
+    setImage(null)
+  }
+
+  const productCreationHandler = async (e:any) => {
     e.preventDefault()
     const postValidators = []
 
@@ -101,10 +115,9 @@ function ProductForm({sessionUser}:ProductFormProps){
       }
       let tagsArr = Array.from(tags)
       let tagsString = tagsArr.join(',')
-      console.log('tags string:', tagsString)
       
 
-      return dispatch(createProduct({
+       const newProductId = await dispatch(createProduct({
         user_id:sessionUser.id, 
         title,
         description,
@@ -115,15 +128,10 @@ function ProductForm({sessionUser}:ProductFormProps){
         summary,
         image
       }))
-      .then(() => {
-        
-        setTitle('')
-        setDescription('')
-        setRewards([])
-        setTags(new Set())
-        setSummary('')
-        setImage(null)
-      })
+
+      await dispatch(loadProducts())
+      clearFunc()
+      navigate(`/products/${newProductId}`)
     }
 
   }
@@ -144,9 +152,9 @@ function ProductForm({sessionUser}:ProductFormProps){
           )}
         </ul>
 
-        <TextField required id="outlined-required" value={title} onChange={e => setTitle(e.target.value)} label="Product Name"/>
-        <TextField required multiline id="outlined-required" value={description} onChange={e => setDescription(e.target.value) } label="Description"/>
-        <TextField required multiline id="outlined-required" value={summary} onChange={e => setSummary(e.target.value)} label="Summary"/>
+        <TextField required value={title} onChange={e => setTitle(e.target.value)} label="Product Name"/>
+        <TextField required multiline minRows={10} maxRows={10}  value={description} onChange={e => setDescription(e.target.value) } label="Description"/>
+        <TextField required multiline  minRows={5} maxRows={5} value={summary} onChange={e => setSummary(e.target.value)} label="Summary"/>
 
         <label>
           Logo/Cover Image  
@@ -190,7 +198,7 @@ function ProductForm({sessionUser}:ProductFormProps){
             </InputAdornment>
             }
             />
-            <TextField required multiline id="outlined-required" value={tierDescription} onChange={e => setTierDescription(e.target.value) } label="Tier Description"/> 
+            <TextField required multiline  value={tierDescription} onChange={e => setTierDescription(e.target.value) } label="Tier Description"/> 
             <Button variant="contained" style={{'backgroundColor': secondary}} onClick={tierHandler}>Create Tier</Button>
             </div>
 

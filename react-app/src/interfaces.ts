@@ -62,3 +62,7 @@ export interface ProductAttributes{
 }
 
 
+export interface StateInterface{
+  products?: any
+  users?:any
+}

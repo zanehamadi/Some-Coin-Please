@@ -12,21 +12,21 @@ const postProduct = (product:ProductAttributes) => {
   return postProductAction
 }
 
-const getProducts = (product:ProductAttributes) => {
+const getProducts = (products:ProductAttributes) => {
   let getProductsAction: ReduxActions ={
     type: GET_PRODUCTS,
-    payload: product
+    payload: products
   }
   return getProductsAction
 }
 
 
-export const findProduct = () => async (dispatch:any) => {
+export const loadProducts = () => async (dispatch:any):Promise<any> => {
   const res = await csrfFetch(`/api/products/`)
   if(res.ok){
     const products = await res.json();
     dispatch(getProducts(products))
-    return products
+    return ''
   }
 }
 
@@ -53,7 +53,7 @@ export const createProduct = (productData:ProductAttributes) => async (dispatch:
   if(res.ok){
     const newProduct = await res.json();
     dispatch(postProduct(newProduct));
-    return newProduct
+    return newProduct.id
   };
 };
 
@@ -61,22 +61,22 @@ export const createProduct = (productData:ProductAttributes) => async (dispatch:
 const initialState = {}
 
 const productReducer = (state = initialState, action:any) => {
-  console.log(action)
+  
   switch(action.type){
 
     case GET_PRODUCTS: {
-      return{...state, ...action.payload}
+      return{...state, ...action.payload.products}
     }
     
     case POST_PRODUCT: {
       if(!state[action.payload.id]){
         const newState = {
           ...state,
-          [action.payload.id]: action.review
+          [action.payload.id]: action.payload
         };
         return newState
       }
-      
+
       return{
         ...state,
         [action.payload.id]: {

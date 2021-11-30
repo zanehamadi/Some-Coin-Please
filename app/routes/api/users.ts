@@ -73,7 +73,7 @@ router.post(
     '/',
     asyncHandler(async (req: any, res:any) => {
       const users = await User.findAll({
-        include: Product
+        include: Product.id
       })
       return res.json({
         users
