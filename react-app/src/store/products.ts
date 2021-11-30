@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf";
 import { ProductAttributes, ReduxActions } from "interfaces";
 
 const POST_PRODUCT:string = "products/POST_PRODUCT"
+const GET_PRODUCTS:string = "products/GET_PRODUCTS"
 
 const postProduct = (product:ProductAttributes) => {
   let postProductAction: ReduxActions = {
@@ -11,6 +12,23 @@ const postProduct = (product:ProductAttributes) => {
   return postProductAction
 }
 
+const getProducts = (product:ProductAttributes) => {
+  let getProductsAction: ReduxActions ={
+    type: GET_PRODUCTS,
+    payload: product
+  }
+  return getProductsAction
+}
+
+
+export const findProduct = () => async (dispatch:any) => {
+  const res = await csrfFetch(`/api/products/`)
+  if(res.ok){
+    const products = await res.json();
+    dispatch(getProducts(products))
+    return products
+  }
+}
 
 export const createProduct = (productData:ProductAttributes) => async (dispatch:any) => {
   const {title, user_id, description, funding, investors, rewards, tags, summary, image} = productData
@@ -45,6 +63,11 @@ const initialState = {}
 const productReducer = (state = initialState, action:any) => {
   console.log(action)
   switch(action.type){
+
+    case GET_PRODUCTS: {
+      return{...state, ...action.payload}
+    }
+    
     case POST_PRODUCT: {
       if(!state[action.payload.id]){
         const newState = {
@@ -53,6 +76,7 @@ const productReducer = (state = initialState, action:any) => {
         };
         return newState
       }
+      
       return{
         ...state,
         [action.payload.id]: {
@@ -61,6 +85,8 @@ const productReducer = (state = initialState, action:any) => {
         }
       };
     }
+
+    
     default:
       return state;
   }

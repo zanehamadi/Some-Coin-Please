@@ -6,29 +6,8 @@ import * as sessionActions from "./store/session";
 import { CurrentUser, State } from 'interfaces';
 import Nav from "components/Nav";
 import ProductForm from "components/ProductForm";
-// import { createTheme} from '@mui/material/styles';
-
-
-
-// const theme = createTheme({
-//   palette: {
-//     neutral: {
-//       main: '#F3BA2C',
-//       contrastText: '#fff'
-//     },
-//   },
-// })
-
-
-
-// declare module '@mui/material/styles'{
-//   interface Palette{
-//     neutral: Palette['primary'];
-//   }
-//   interface PaletteOptions {
-//     neutral?: PaletteOptions['primary'];
-//   }
-// }
+import ProductPage from "components/ProductPage";
+import { findProduct } from "store/products";
 
 
 function App() {
@@ -38,9 +17,15 @@ function App() {
   const sessionUser:CurrentUser = useSelector((state: State) => state.session.user);
 
   useEffect(() => {
-    dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+    dispatch(sessionActions.restoreUser());
+    dispatch(findProduct()).then(() => setIsLoaded(true))
   }, [dispatch]);
 
+
+  
+  const productsSlice = useSelector(state => state.products)  
+
+  const products = Object.values(productsSlice)
 
   return ( isLoaded ?
     <>
@@ -48,6 +33,7 @@ function App() {
       <Routes>
         <Route path='/'  element={<Home/>} />
         <Route path='/postproduct' element={<ProductForm sessionUser={sessionUser}/>} />
+        <Route path='/products/productId' element={<ProductPage products={products}/>} />
       </Routes>
     </>
     :
