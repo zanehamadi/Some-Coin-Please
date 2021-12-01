@@ -13,11 +13,10 @@ import {primary, outlinedButton} from '../styling-variables'
 interface NavProps{
   sessionUser?: CurrentUser;
   products?: any;
-  users?: any;
 
 }
 
-function Nav({sessionUser, products, users}:NavProps){
+function Nav({sessionUser, products}:NavProps){
 
   const dispatch:any = useDispatch()
   const navigate = useNavigate()
@@ -41,7 +40,7 @@ function Nav({sessionUser, products, users}:NavProps){
           <Stack direction="row" spacing={3}>
               <Button variant="contained" onClick={() => dispatch(logoutUser())} style={buttonStyling} >Logout</Button>
               <Button variant="outlined" style={outlinedButton} onClick={() => navigate('/')}>Home</Button>
-              <Search users={users} products={products}/>
+              <Search products={products}/>
           
           </Stack>
         
@@ -51,7 +50,7 @@ function Nav({sessionUser, products, users}:NavProps){
             <SignupFormModal/>
             <Button variant="contained" onClick={e => demoFunction(e)} style={buttonStyling} >Demo</Button>
             <Button variant="outlined" style={outlinedButton} onClick={() => navigate('/')}>Home</Button>
-            <Search users={users} products={products}/>
+            <Search products={products}/>
           </Stack>
 
     }
