@@ -26,7 +26,6 @@ export const loadProducts = () => async (dispatch:any):Promise<any> => {
   if(res.ok){
     const products = await res.json();
     dispatch(getProducts(products))
-    return ''
   }
 }
 

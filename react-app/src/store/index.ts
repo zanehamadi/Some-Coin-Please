@@ -4,12 +4,13 @@ import thunk from 'redux-thunk';
 import sessionReducer from './session';
 import productReducer from './products';
 import userReducer from './users';
-
+import updateReducer from './updates';
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   products: productReducer,
-  users: userReducer
+  users: userReducer,
+  updates: updateReducer
 });
 
 let enhancer:any;

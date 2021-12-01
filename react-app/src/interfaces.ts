@@ -61,8 +61,17 @@ export interface ProductAttributes{
   image: string;
 }
 
+export interface UpdateAttributes{
+  id?: number;
+  product_id?: number;
+  title?: string;
+  description?: string;
+
+}
+
 
 export interface StateInterface{
-  products?: any
-  users?:any
+  products?: any;
+  users?:any;
+  updates?:any;
 }
