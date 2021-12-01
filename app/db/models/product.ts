@@ -14,7 +14,6 @@ interface ProductAttributes{
   rewards: object;
   tags: Array<string>;
   image: string;
-  video: string;
 }
 
 
@@ -33,7 +32,6 @@ module.exports = (sequelize:any, DataTypes:any) => {
     rewards!: object;
     tags!: Array<string>;
     image!: string;
-    video!: string;
 
     static associate(models:any) {
       Product.belongsTo(models.User, {foreignKey:'user_id'})
@@ -88,10 +86,6 @@ module.exports = (sequelize:any, DataTypes:any) => {
       type: DataTypes.ARRAY(DataTypes.STRING)
     },
     image: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    video: {
       type: DataTypes.STRING,
       allowNull: false,
     }

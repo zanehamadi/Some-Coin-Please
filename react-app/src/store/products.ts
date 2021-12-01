@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf";
 import { ProductAttributes, ReduxActions } from "interfaces";
 
 const POST_PRODUCT:string = "products/POST_PRODUCT"
+const GET_PRODUCTS:string = "products/GET_PRODUCTS"
 
 const postProduct = (product:ProductAttributes) => {
   let postProductAction: ReduxActions = {
@@ -11,31 +12,48 @@ const postProduct = (product:ProductAttributes) => {
   return postProductAction
 }
 
+const getProducts = (products:ProductAttributes) => {
+  let getProductsAction: ReduxActions ={
+    type: GET_PRODUCTS,
+    payload: products
+  }
+  return getProductsAction
+}
+
+
+export const loadProducts = () => async (dispatch:any):Promise<any> => {
+  const res = await csrfFetch(`/api/products/`)
+  if(res.ok){
+    const products = await res.json();
+    dispatch(getProducts(products))
+    return ''
+  }
+}
 
 export const createProduct = (productData:ProductAttributes) => async (dispatch:any) => {
-  const {title, user_id, description, funding, investors, rewards, tags, summary, image, video} = productData
+  const {title, user_id, description, funding, investors, rewards, tags, summary, image} = productData
   const formData = new FormData()
   formData.append('user_id', `${user_id}`)
   formData.append('title', title)
   formData.append('description', description)
   formData.append('funding',`${funding}`)
   formData.append('investors', `${investors}`)
-  formData.append('rewards', `${rewards}`)
-  formData.append('tags',`${tags}`)
-  formData.append('summary', `${summary}`)
+  formData.append('rewards', JSON.stringify(rewards))
+  formData.append('tags',  tags)
+  formData.append('summary', summary)
 
   if(image) formData.append('image', image)
-  if(video) formData.append('video', video)
+
   const res = await csrfFetch('/api/products', {
     method: 'POST',
-    headers: {'Content-Type': 'application/json'},
+    headers: {"Content-Type": "multipart/form-data"},
     body: formData
   });
 
   if(res.ok){
     const newProduct = await res.json();
     dispatch(postProduct(newProduct));
-    return newProduct
+    return newProduct.id
   };
 };
 
@@ -43,23 +61,32 @@ export const createProduct = (productData:ProductAttributes) => async (dispatch:
 const initialState = {}
 
 const productReducer = (state = initialState, action:any) => {
+  
   switch(action.type){
+
+    case GET_PRODUCTS: {
+      return{...state, ...action.payload.products}
+    }
+    
     case POST_PRODUCT: {
-      if(!state[action.product.id]){
+      if(!state[action.payload.id]){
         const newState = {
           ...state,
-          [action.product.id]: action.review
+          [action.payload.id]: action.payload
         };
         return newState
       }
+
       return{
         ...state,
-        [action.product.id]: {
-          ...state[action.product.id],
-          ...action.product
+        [action.payload.id]: {
+          ...state[action.payload.id],
+          ...action.payload
         }
       };
     }
+
+    
     default:
       return state;
   }

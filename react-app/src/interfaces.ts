@@ -26,6 +26,7 @@ export interface ReduxActions{
   payload?: any 
 }
 
+
 export interface SessionState{
   user: CurrentUser
 }
@@ -46,6 +47,7 @@ export interface ButtonStyling{
   backgroundColor: string;
 }
 
+
 export interface ProductAttributes{
   id?: number;
   user_id: number;
@@ -55,9 +57,12 @@ export interface ProductAttributes{
   funding: number;
   investors: number;
   rewards: object;
-  tags: Array<string>;
+  tags: string;
   image: string;
-  video: string;
 }
 
 
+export interface StateInterface{
+  products?: any
+  users?:any
+}

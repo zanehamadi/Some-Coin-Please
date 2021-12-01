@@ -50,10 +50,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING(2000)
       },
-      video: {
-        allowNull: false,
-        type: Sequelize.STRING(2000)
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

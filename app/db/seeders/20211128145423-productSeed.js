@@ -1,19 +1,22 @@
 'use strict';
 
-let productDummyJSON = {
-  'tier1':{
+let productDummyJSON = [
+  {
+    'tier': 1,
     'price':1,
     'summary':'Nothing'
   },
-  'tier2':{
+  {
+    'tier':2,
     'price': 10,
     'summary': '20% Discount on future products'
   },
-  'tier3': {
+  {
+    'tier':3,
     'price': 20,
     'summary':'Product prototypes'
   }
-}
+]
 
 productDummyJSON = JSON.stringify(productDummyJSON)
 
@@ -38,7 +41,6 @@ module.exports = {
       rewards:productDummyJSON,
       tags: ['technology', 'fashion'],
       image: 'https://i.imgur.com/ncNGBSm.png',
-      video: 'https://www.youtube.com/watch?v=Rm_aiDpkGmQ'
     }])
   },
 

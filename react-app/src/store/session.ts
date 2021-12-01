@@ -85,7 +85,7 @@ const sessionReducer = (state = initialState, action:ReduxActions) => {
       newState = Object.assign({}, state);
       newState.user = null;
       return newState;
-    default:
+    default:  
       return state;
   }
 };
