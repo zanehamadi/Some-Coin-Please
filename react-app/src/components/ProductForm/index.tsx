@@ -93,24 +93,18 @@ function ProductForm({sessionUser}:ProductFormProps){
     if(description.length < 15) postValidators.push('Description can be no shorter than 15 characters.')
     if(summary.length > 256) postValidators.push('Summary can not be longer than 256 characters.')
     if(summary.length < 15) postValidators.push('Summary can be no shorter than 15 characters.')
-    if(tags.size < 0) postValidators.push('Please provide atleast one tag.')
+    if(tags.size === 0) postValidators.push('Please provide atleast one tag.')
     if(!image) postValidators.push('Please provide an image for this product(Logo/Product Picture)')
 
     setValidators(postValidators)
     
     if(!postValidators.length){
-      let rewardsObject = {}
-      if(rewards.length){
-        rewards.forEach(reward => {
-          rewardsObject[`tier ${reward.tier}`] = {
-            "price":reward.price,
-            "summary":reward.description
-          }
-        })
-      }
+
+
       let tagsArr = Array.from(tags)
       let tagsString = tagsArr.join(',')
       
+      console.log('REWARDS:', rewards)
 
        const newProductId = await dispatch(createProduct({
         user_id:sessionUser.id, 

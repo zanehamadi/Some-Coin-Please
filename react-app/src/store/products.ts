@@ -26,7 +26,6 @@ export const loadProducts = () => async (dispatch:any):Promise<any> => {
   if(res.ok){
     const products = await res.json();
     dispatch(getProducts(products))
-    return ''
   }
 }
 
@@ -42,7 +41,7 @@ export const createProduct = (productData:ProductAttributes) => async (dispatch:
   formData.append('tags',  tags)
   formData.append('summary', summary)
 
-  if(image) formData.append('image', image)
+  formData.append('image', image)
 
   const res = await csrfFetch('/api/products', {
     method: 'POST',
@@ -65,25 +64,15 @@ const productReducer = (state = initialState, action:any) => {
   switch(action.type){
 
     case GET_PRODUCTS: {
-      return{...state, ...action.payload.products}
+      const newState = {}
+      action.payload.products.forEach((product:any) => newState[product.id] = product)
+      return newState
     }
     
     case POST_PRODUCT: {
-      if(!state[action.payload.id]){
-        const newState = {
-          ...state,
-          [action.payload.id]: action.payload
-        };
-        return newState
-      }
-
-      return{
-        ...state,
-        [action.payload.id]: {
-          ...state[action.payload.id],
-          ...action.payload
-        }
-      };
+      const newState = {...state}
+      newState[action.payload.id] = action.payload
+      return newState
     }
 
     

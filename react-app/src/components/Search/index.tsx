@@ -7,6 +7,7 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import IconButton from '@mui/material/IconButton';
 import {secondary} from '../styling-variables'
 import { Checkbox, FormControlLabel } from '@mui/material';
+import { useNavigate } from 'react-router';
 
 
 interface SearchProps{
@@ -19,37 +20,53 @@ function Search({products}: SearchProps){
   const [productResults, setProductResults] = useState<Array<any>>([])
   const [showFilter, setShowFilter] = useState<boolean>(false)
   const [tags, setTags] = useState<Set<any>>(new Set())
-
+  const [counter, setCounter] = useState<number>(0)
+  const navigate = useNavigate()
   
   const tagNames = ['Technology', 'Fashion', 'Outdoors', 'Food', 'Free', 'Video Games', 'Board Game', 'Art', 'Tool', 'Entertainment', 'Event', 'Software', 'Hardware']
 
 
 
-  const inputFunc = (e:any) => {
-    let input = e.target.value
-    setUserInput(input)
-    let filteredProducts = products
-  
-    if(input){
-      filteredProducts = filteredProducts.filter((product:any) => product.title.startsWith(input))
-      setProductResults(filteredProducts)
-    }
-    
-  }
 
   const filterSwitch = () => {
-    showFilter ? setShowFilter(false) : setShowFilter(true)
+    if(showFilter){
+      setShowFilter(false)
+      setCounter(counter + 1)
+      setTags(new Set())
+    }else setShowFilter(true)
   }
 
   useEffect(() => {
-    if(!userInput.length && !tags.size){
-      setProductResults([])
+    let filteredProducts = products
+    if(userInput){
+      filteredProducts = filteredProducts.filter((product:any) => product.title.startsWith(userInput))
     }
-  }, [userInput, tags])
+    
+    
+    if(tags.size){
+      let tagsArr = Array.from(tags)
+      filteredProducts = filteredProducts.filter((product:any) => {
+        let hasTag = false
+        let productTags = product.tags
+        productTags.forEach((tag:string, i:number) => {
+          if(tagsArr.includes(tag)){
+            hasTag = true
+            return;
+          }
+          else if(productTags.length - 1 === i) return;
+        })
+
+        return hasTag
+      })
+    }
+    setProductResults(filteredProducts)
+  }, [userInput, tags, counter])
 
 
   
   const tagHandler = (e:any) => {
+    
+    setCounter(counter + 1)
     let tag = e.target.value
     let tagsClone = tags
     if(tagsClone.has(tag)){
@@ -77,7 +94,7 @@ function Search({products}: SearchProps){
           </InputAdornment>
         }
         value={userInput}
-        onChange={e => inputFunc(e)}
+        onChange={e => setUserInput(e.target.value)}
         />
       </FormControl>
         <IconButton onClick={filterSwitch}>
@@ -95,15 +112,18 @@ function Search({products}: SearchProps){
         </div>
       }
 
-      {productResults && 
+      {(productResults && (userInput.length || tags.size)) ?
+
           <div className="product-results-container">
             {productResults.map(product => 
-              <div className="product-result">
-                <span>{product.title}</span>
+              <div className="product-result" onClick={() => navigate(`/products/${product.id}`)}>
                 <img style={{width:'50px'}} src={product.image} />
+                <span>{product.title}</span>
               </div>
             )}
           </div>
+          :
+          <></>
       }
     </div>
   )

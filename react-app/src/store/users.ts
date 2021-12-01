@@ -17,7 +17,6 @@ export const loadUsers = () => async (dispatch:any):Promise<any> => {
   if(res.ok){
     const users = await res.json();
     dispatch(getUsers(users))
-    return ''
   }
 }
 
@@ -30,7 +29,9 @@ const userReducer = (state = initialState, action:any) => {
   switch(action.type){
 
     case GET_USERS:
-      return{...state, ...action.payload.users}
+      const newState = {}
+      action.payload.users.forEach((user:any) => newState[user.id] = user)
+      return (newState)
     
     default:
       return state

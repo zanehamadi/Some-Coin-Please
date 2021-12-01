@@ -35,6 +35,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
 
     static associate(models:any) {
       Product.belongsTo(models.User, {foreignKey:'user_id'})
+      Product.hasMany(models.Update, {foreignKey:'product_id'})
     }
   };
   Product.init({
@@ -83,7 +84,10 @@ module.exports = (sequelize:any, DataTypes:any) => {
     },
     tags: {
       allowNull: false,
-      type: DataTypes.ARRAY(DataTypes.STRING)
+      type: DataTypes.STRING,
+      validate: {
+        max: 1000000, 
+      }
     },
     image: {
       type: DataTypes.STRING,

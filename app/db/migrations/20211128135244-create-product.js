@@ -40,7 +40,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       rewards: {
-        type: Sequelize.JSON
+        type: Sequelize.STRING(1000000)
       },
       tags: {
         allowNull: false,
