@@ -73,6 +73,7 @@ router.post(
   asyncHandler(async (req:any, res:any) => {
 
     const {user_id, title, description, summary, funding, investors, rewards, tags}: ProductAttributes = req.body
+    console.log('REWARDS', rewards, typeof rewards)
     const image = await singlePublicFileUpload(req.file);
     let product = await Product.create({
       user_id:+user_id, 

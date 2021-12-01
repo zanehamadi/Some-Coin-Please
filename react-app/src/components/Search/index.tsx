@@ -99,8 +99,8 @@ function Search({products}: SearchProps){
           <div className="product-results-container">
             {productResults.map(product => 
               <div className="product-result">
-                <span>{product.title}</span>
                 <img style={{width:'50px'}} src={product.image} />
+                <span>{product.title}</span>
               </div>
             )}
           </div>

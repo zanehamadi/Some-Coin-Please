@@ -32,11 +32,9 @@ function App() {
   const users = Object.values(usersSlice)
 
 
-  console.log(users)
 
 
-
-
+  console.log('USERS', users)
 
   return ( isLoaded ?
     <>
