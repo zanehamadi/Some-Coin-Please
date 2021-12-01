@@ -40,7 +40,7 @@ function App() {
 
   return ( isLoaded ?
     <>
-    <Nav sessionUser={sessionUser}/>
+    <Nav sessionUser={sessionUser} products={products} users={users}/>
       <Routes>
         <Route path='/'  element={<Home/>} />
         <Route path='/postproduct' element={<ProductForm sessionUser={sessionUser}/>} />

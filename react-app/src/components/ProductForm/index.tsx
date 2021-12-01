@@ -1,7 +1,6 @@
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
-import {blueGrey, yellow} from '@mui/material/colors';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import {useState } from 'react';
 import Button from '@mui/material/Button';
@@ -12,7 +11,7 @@ import Input from '@mui/material/Input';
 import { createProduct, loadProducts } from 'store/products';
 import { useDispatch} from "react-redux";
 import { useNavigate } from 'react-router';
-
+import {primary, secondary} from '../styling-variables'
 
 
 
@@ -23,8 +22,6 @@ interface ProductFormProps{
 function ProductForm({sessionUser}:ProductFormProps){
 
   const dispatch:any = useDispatch();
-  const primary = yellow[700]
-  const secondary = blueGrey[700]
   const navigate = useNavigate()
 
 
@@ -55,11 +52,9 @@ function ProductForm({sessionUser}:ProductFormProps){
     if(tagsClone.has(tag)){
       tagsClone.delete(tag)
       setTags(tagsClone)
-      console.log('Tags', tags)
     }else{
       tagsClone.add(tag)
       setTags(tagsClone)
-      console.log('Tags', tags)
     }
   }
 
@@ -205,7 +200,7 @@ function ProductForm({sessionUser}:ProductFormProps){
 
         </div>
 
-        <Button variant="contained" style={{'backgroundColor':primary}} onClick={e => productCreationHandler(e)} >CREATE</Button>
+        <Button variant="contained" style={{'backgroundColor':primary, 'color': 'black'}} onClick={e => productCreationHandler(e)} >CREATE</Button>
 
       </div>
 
