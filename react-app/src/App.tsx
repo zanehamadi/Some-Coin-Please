@@ -47,7 +47,7 @@ function App() {
       <Routes>
         <Route path='/'  element={<Home sessionUser={sessionUser} products={products}/>} />
         <Route path='/postproduct' element={<ProductForm sessionUser={sessionUser}/>} />
-        <Route path='/products/:productId' element={<ProductPage products={products} users={users}/>} />
+        <Route path='/products/:productId' element={<ProductPage products={products} users={users} sessionUser={sessionUser}/>} />
       </Routes>
     </>
     :

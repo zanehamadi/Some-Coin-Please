@@ -6,9 +6,10 @@ import Button from '@mui/material/Button';
 interface ProductPageProps{
   products?: any;
   users?: any;
+  sessionUser?: any;
 }
 
-function ProductPage({products, users}:ProductPageProps){
+function ProductPage({products, users, sessionUser}:ProductPageProps){
   let {productId}:any = useParams()
   let product = products?.find((specProduct:any) => specProduct.id === parseInt(productId))
   let user = users?.find((u:any) => u?.id === product?.user_id)
@@ -25,6 +26,8 @@ function ProductPage({products, users}:ProductPageProps){
         <>
           <div className="main-content">
             <h1>{product?.title}</h1>
+            {sessionUser && <Button>Edit Product</Button>}
+            {sessionUser && <Button>Post an Update</Button>}
             <img src={product?.image} />
             <h3>{`invented by ${user?.username}`}</h3>
             {updateTab ? 

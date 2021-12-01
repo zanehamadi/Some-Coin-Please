@@ -14,11 +14,12 @@ function Home({sessionUser, products}:HomeProps){
 
   let userId = sessionUser ? sessionUser.id : ''
   let userProducts;
+
   if(userId){
     userProducts = products.filter((product:any) => product.user_id === userId)
   }
 
-  
+
 
   
 
@@ -50,12 +51,6 @@ function Home({sessionUser, products}:HomeProps){
               <img src={product.image}/>
               </div>
             )}
-          </div>
-        }
-
-        {tab === 'updates' &&
-          <div className="updates-container" >
-            {}
           </div>
         }
       </div>
