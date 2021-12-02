@@ -142,8 +142,8 @@ function ProductForm({sessionUser}:ProductFormProps){
         </ul>
 
         <TextField required value={title} onChange={e => setTitle(e.target.value)} label="Product Name"/>
-        <TextField required multiline minRows={10} maxRows={10}  value={description} onChange={e => setDescription(e.target.value) } label="Description"/>
         <TextField required multiline  minRows={5} maxRows={5} value={summary} onChange={e => setSummary(e.target.value)} label="Summary"/>
+        <TextField required multiline minRows={10} maxRows={10}  value={description} onChange={e => setDescription(e.target.value) } label="Description"/>
 
         <label>
           Logo/Cover Image  
