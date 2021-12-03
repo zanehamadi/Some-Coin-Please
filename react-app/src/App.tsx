@@ -10,7 +10,7 @@ import ProductPage from "components/ProductPage";
 import { loadProducts } from "store/products";
 import {loadUsers} from "store/users"
 import {loadUpdates} from "store/updates"
-
+import EditForm from './components/ProductPage/EditForm'
 
 function App() {
   
@@ -31,7 +31,6 @@ function App() {
   const usersSlice = useSelector((state:StateInterface) => state.users)
 
   const updatesSlice = useSelector((state:StateInterface) => state.updates)
-
   const products = Object.values(productsSlice)
   const users = Object.values(usersSlice)
   const updates = Object.values(updatesSlice)
@@ -48,6 +47,7 @@ function App() {
         <Route path='/'  element={<Home sessionUser={sessionUser} products={products}/>} />
         <Route path='/postproduct' element={<ProductForm sessionUser={sessionUser}/>} />
         <Route path='/products/:productId' element={<ProductPage products={products} users={users} sessionUser={sessionUser}/>} />
+        <Route path='/products/:productId/edit' element={<EditForm products={products} />} />
       </Routes>
     </>
     :

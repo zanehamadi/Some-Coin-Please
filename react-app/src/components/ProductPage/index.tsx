@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import {useParams} from 'react-router-dom'
+import {useNavigate, useParams} from 'react-router-dom'
 import Button from '@mui/material/Button';
-
+import DeleteModal from './DeleteModal'
+import UpdateModal from './UpdateModal'
 
 interface ProductPageProps{
   products?: any;
@@ -9,15 +10,20 @@ interface ProductPageProps{
   sessionUser?: any;
 }
 
-function ProductPage({products, users, sessionUser}:ProductPageProps){
+function ProductPage({products, users, sessionUser}:ProductPageProps) {
   let {productId}:any = useParams()
   let product = products?.find((specProduct:any) => specProduct.id === parseInt(productId))
   let user = users?.find((u:any) => u?.id === product?.user_id)
+  let navigate = useNavigate()
   const [updateTab, setUpdateTab] = useState<boolean>(false)
+  const isPoster = user?.id === sessionUser?.id
+  
   const updateTabSwitch = () => {
     updateTab ? setUpdateTab(false) : setUpdateTab(true)
   }
 
+  
+  
 
   return(
     <div>
@@ -26,8 +32,9 @@ function ProductPage({products, users, sessionUser}:ProductPageProps){
         <>
           <div className="main-content">
             <h1>{product?.title}</h1>
-            {sessionUser && <Button>Edit Product</Button>}
-            {sessionUser && <Button>Post an Update</Button>}
+            {isPoster && <Button onClick={() => navigate(`/products/${productId}/edit`)}>Edit Product</Button>}
+            {isPoster && <UpdateModal product={product}/> }
+            {isPoster && <DeleteModal product={product} />}
             <img src={product?.image} />
             <h3>{`invented by ${user?.username}`}</h3>
             {updateTab ? 

@@ -50,7 +50,7 @@ export interface ButtonStyling{
 
 export interface ProductAttributes{
   id?: number;
-  user_id: number;
+  user_id?: number;
   title: string;
   description: string;
   summary: string;
@@ -58,7 +58,7 @@ export interface ProductAttributes{
   investors: number;
   rewards: object;
   tags: string;
-  image: string;
+  image?: string;
 }
 
 export interface UpdateAttributes{

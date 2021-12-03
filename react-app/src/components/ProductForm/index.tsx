@@ -35,10 +35,10 @@ function ProductForm({sessionUser}:ProductFormProps){
 
 
 
-  const [tierPrice, setTierPrice] = useState<number>(0)
+  const [tierPrice, setTierPrice] = useState<any>('')
   const [tierDescription, setTierDescription] = useState<string>('')
   const [tierCounter, setTierCounter] = useState<number>(1)
-
+  const [tierValidator, setTierValidator] = useState<Array<string>>([])
 
   const updateImage = (e:any) => {
     const file = e.target.files[0];
@@ -61,17 +61,26 @@ function ProductForm({sessionUser}:ProductFormProps){
   const tagNames = ['Technology', 'Fashion', 'Outdoors', 'Food', 'Free', 'Video Games', 'Board Game', 'Art', 'Tool', 'Entertainment', 'Event', 'Software', 'Hardware']
 
   const tierHandler = () => {
-    let rewardsClone = rewards
-    let counter = tierCounter
-    let newTier = {}
-    newTier['tier'] = counter
-    newTier['price'] = tierPrice
-    newTier['description'] = tierDescription
-    rewardsClone.push(newTier)
-    setTierCounter(++counter)
-    setTierPrice(0)
-    setTierDescription('')
-    setRewards(rewardsClone)
+    let rewardsClone = rewards;
+    let counter = tierCounter;
+    let newTier = {};
+    let validators = [];
+    if(!tierPrice) validators.push('Please provide a proper price for this tier.');
+    if(!tierDescription) validators.push('Please provide a description for this tier.')
+    if(tierPrice > 1000000000) validators.push('Tier Price cannot be more than 1,000,000,000 dollars. Come on.')
+    if(+tierPrice <= +rewardsClone[rewardsClone.length - 1]?.price) validators.push('Tier price can not be lower than previous tier.')
+
+    if(!validators.length){
+      newTier['tier'] = counter;
+      newTier['price'] = tierPrice;
+      newTier['description'] = tierDescription;
+      rewardsClone.push(newTier);
+      setTierCounter(++counter);
+      setTierPrice('');
+      setTierDescription('');
+      setRewards(rewardsClone);
+    }
+    setTierValidator(validators)
   }
 
   const clearFunc = () => {
@@ -83,8 +92,8 @@ function ProductForm({sessionUser}:ProductFormProps){
     setImage(null)
   }
 
-  const productCreationHandler = async (e:any) => {
-    e.preventDefault()
+  const productCreationHandler = async () => {
+
     const postValidators = []
 
     if(title.length > 256) postValidators.push('Title can not be longer than 256 characters.')
@@ -104,7 +113,6 @@ function ProductForm({sessionUser}:ProductFormProps){
       let tagsArr = Array.from(tags)
       let tagsString = tagsArr.join(',')
       
-      console.log('REWARDS:', rewards)
 
        const newProductId = await dispatch(createProduct({
         user_id:sessionUser.id, 
@@ -131,7 +139,7 @@ function ProductForm({sessionUser}:ProductFormProps){
     <>
     {sessionUser ? 
     
-    <Box style={{marginTop:'150px', marginLeft:'50px'}} component="form" autoComplete="off" >
+    <Box component="form" autoComplete="off" >
 
       <div>
 
@@ -142,8 +150,8 @@ function ProductForm({sessionUser}:ProductFormProps){
         </ul>
 
         <TextField required value={title} onChange={e => setTitle(e.target.value)} label="Product Name"/>
-        <TextField required multiline minRows={10} maxRows={10}  value={description} onChange={e => setDescription(e.target.value) } label="Description"/>
         <TextField required multiline  minRows={5} maxRows={5} value={summary} onChange={e => setSummary(e.target.value)} label="Summary"/>
+        <TextField required multiline minRows={10} maxRows={10}  value={description} onChange={e => setDescription(e.target.value) } label="Description"/>
 
         <label>
           Logo/Cover Image  
@@ -164,6 +172,15 @@ function ProductForm({sessionUser}:ProductFormProps){
 
         <div>
           <h3>Tier Creator (optional)</h3>
+          {tierValidator.length ?
+            <ul>
+              {tierValidator.map((validator:string) => 
+                  <li>{validator}</li>
+              )}
+            </ul>
+            :
+            <> </>
+          }
           {rewards && rewards.map(tier => 
             <div>
               <h3>{`Tier ${tier.tier}` }</h3>
@@ -194,7 +211,7 @@ function ProductForm({sessionUser}:ProductFormProps){
 
         </div>
 
-        <Button variant="contained" style={{'backgroundColor':primary, 'color': 'black'}} onClick={e => productCreationHandler(e)} >CREATE</Button>
+        <Button variant="contained" style={{'backgroundColor':primary, 'color': 'black'}} onClick={productCreationHandler} >CREATE</Button>
 
       </div>
 
