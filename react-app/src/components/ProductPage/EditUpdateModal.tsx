@@ -33,8 +33,9 @@ function EditUpdateModal({update}: EditUpdateModalProps){
         description
       }))
       await dispatch(loadUpdates())
-      //@ts-ignore
-      if(editedUpdate) setEditSucessful(true)
+      
+
+      if(editedUpdate === update.id) setEditSucessful(true)
     }
   }
   
