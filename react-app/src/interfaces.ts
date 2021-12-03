@@ -75,3 +75,10 @@ export interface StateInterface{
   users?:any;
   updates?:any;
 }
+
+export interface InvestmentAttributes{
+  id?: any
+  product_id: any;
+  user_id: any;
+  amount: any;
+}
