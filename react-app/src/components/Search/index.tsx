@@ -91,7 +91,7 @@ function Search({products}: SearchProps){
           id="search-input"
           startAdornment={
             <InputAdornment position="start">
-              <SearchIcon color="secondary" />
+              <SearchIcon color="primary" />
             </InputAdornment>
           }
           value={userInput}

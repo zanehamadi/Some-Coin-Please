@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import {editUpdate, loadUpdates} from '../../store/updates'
 import TextField from '@mui/material/TextField';
 import { useDispatch } from 'react-redux';
-
+import Snackbar from '@mui/material/Snackbar';
 
 interface EditUpdateModalProps{
   update: any;
@@ -15,6 +15,7 @@ function EditUpdateModal({update}: EditUpdateModalProps){
   const [title, setTitle] = useState<string>(update.title);
   const [description, setDescription] = useState<string>(update.description);
   const [editSuccessful, setEditSucessful] = useState<boolean>(false)
+  const [openSnack, setOpenSnack] = useState<boolean>(false)
 
   const dispatch = useDispatch()
 
@@ -32,43 +33,42 @@ function EditUpdateModal({update}: EditUpdateModalProps){
         description
       }))
       await dispatch(loadUpdates())
-      
-
-      if(editedUpdate === update.id) setEditSucessful(true)
+      if(editedUpdate === update.id){
+        setEditSucessful(true)
+        setOpenSnack(true)
+        setShowModal(false)
+      }
     }
   }
-  
-  const closeModalButton = () => {
-    setShowModal(false)
+
+  const handleClose = () => {
     setEditSucessful(false)
+    setOpenSnack(false)
   }
+  
 
   return(
     <>
       <Button variant="outlined" onClick={() => setShowModal(true)}>Edit Update</Button>
       {showModal && 
         <Modal onClose={() => setShowModal(false)}>
-        <>
-          {editSuccessful ?
-          
-          <>
-            <h3>Update has been successfuly edited.</h3>
-            <span> You can now close this.</span>
-            <Button onClick={closeModalButton}> close </Button>
-          </>
-
-          :
           <>
             <TextField label="Title" variant="filled" value={title} onChange={e => setTitle(e.target.value)} />
             <TextField label="Description" variant="filled" value={description} onChange={e => setDescription(e.target.value)} multiline />
             <Button onClick={editUpdateHandler} > Confirm </Button>
           </>
-          }
-        </>
         </Modal>  
       }
-    </>
+      {editSuccessful && 
+      <Snackbar
+        open={openSnack}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        message="Update edit successful"
 
+      />
+      }
+    </>
 
   )
 }
