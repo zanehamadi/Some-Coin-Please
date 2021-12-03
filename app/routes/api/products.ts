@@ -90,4 +90,40 @@ router.post(
   })
 )
 
+
+router.put(
+  '/:id',
+  singleMulterUpload("image"),
+  validateProduct,
+  asyncHandler(async (req:any, res:any) => {
+
+    const {title, description, summary, funding, investors, rewards, tags}: ProductAttributes = req.body
+    let image = ''
+    if(req.file) image = await singlePublicFileUpload(req.file);
+    
+    const product = await Product.findByPk(+req.params.id)
+    product.title = title;
+    product.description = description;
+    product.summary = summary;
+    product.funding = +funding;
+    product.investors = +investors;
+    product.rewards = rewards;
+    product.tags = tags.split(',');
+    if(image) product.image = image;
+    
+    await product.save()
+    return res.json(product)
+
+  })
+)
+
+router.delete(
+  '/:id',
+  asyncHandler(async (req:any, res:any) => {
+    const product = await Product.findByPk(+req.params.id)
+    await product.destroy()
+    return res.json({'message':'Product has been deleted.'})
+  })
+)
+
 export default router

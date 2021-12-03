@@ -80,11 +80,11 @@ module.exports = (sequelize:any, DataTypes:any) => {
       type: DataTypes.INTEGER
     },
     rewards: {
-      type: DataTypes.JSON
+      type: DataTypes.STRING(1000000)
     },
     tags: {
       allowNull: false,
-      type: DataTypes.STRING,
+      type: DataTypes.ARRAY(DataTypes.STRING(2000)),
       validate: {
         max: 1000000, 
       }

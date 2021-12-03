@@ -41,7 +41,7 @@ function Nav({sessionUser, products}:NavProps){
               <Button variant="contained" onClick={() => dispatch(logoutUser())} style={buttonStyling} >Logout</Button>
               <Button variant="outlined" style={outlinedButton} onClick={() => navigate('/')}>Home</Button>
               <Search products={products}/>
-          
+              <Button variant="outlined" style={outlinedButton} onClick={() => navigate('/postproduct')}>Post a Product</Button>
           </Stack>
         
       :
