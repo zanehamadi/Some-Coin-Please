@@ -8,7 +8,7 @@ import ThemeProvider from '@mui/system/ThemeProvider';
 import {theme} from '../styling-variables'
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-
+import FundModal from './FundModal'
 
 interface ProductPageProps{
   products?: any;
@@ -37,7 +37,6 @@ function ProductPage({products, users, sessionUser, updates}:ProductPageProps) {
   const isPoster = user?.id === sessionUser?.id
   
 
-
   return(
     <ThemeProvider theme={theme} >
     <div>
@@ -65,7 +64,7 @@ function ProductPage({products, users, sessionUser, updates}:ProductPageProps) {
               <Tab value="description" label="Description" />
               <Tab value="updates" label="Updates" />
               <Tab value="tiers" label="Tiers" />
-              <Tab value="fund" label="Fund this product" />
+              <Tab value="fund" label="Funds" />
             </Tabs>
 
             {tab === 'updates' && 
@@ -126,9 +125,19 @@ function ProductPage({products, users, sessionUser, updates}:ProductPageProps) {
 
             {tab === 'fund' && 
               <div className="fund-product-div">
-                <Button>Fund</Button>
                 <span>Current Investors: {product?.investors}</span>
                 <span>Current Funds: {product?.funding}</span>
+                {sessionUser ?
+                  <>
+                  
+                    <FundModal sessionUser={sessionUser} product={product}/>
+                  
+                  </>
+                  :
+                  <>
+                    <h3> Login to fund this product. </h3>
+                  </>
+                }
               </div>
             }
             

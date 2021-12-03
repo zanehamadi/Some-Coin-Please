@@ -67,8 +67,8 @@ module.exports = (sequelize: any, DataTypes: any) => {
 
     }
     toSafeObject = () => {
-      const {id,username,email} = this;
-      return {id, username, email}
+      const {id,username,email, balance, profile_picture} = this;
+      return {id, username, email, balance, profile_picture}
     }
 
     validatePassword = (password: string) => {

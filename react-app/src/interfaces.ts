@@ -2,13 +2,13 @@ export interface DefaultUser{
   id: number;
   username: string;
   profile_picture: string;
-  toSafeObject: () => void
-  validatePassword: (password: string) => boolean
+  toSafeObject?: () => void
+  validatePassword?: (password: string) => boolean
 }
 
 export interface CurrentUser extends DefaultUser{
-  created_at: string;
-  updated_at: string;
+  created_at?: string;
+  updated_at?: string;
   balance: number;
 }
 
@@ -74,6 +74,7 @@ export interface StateInterface{
   products?: any;
   users?:any;
   updates?:any;
+  investments?:any;
 }
 
 export interface InvestmentAttributes{

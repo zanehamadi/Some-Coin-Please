@@ -10,7 +10,9 @@ import ProductPage from "components/ProductPage";
 import { loadProducts } from "store/products";
 import {loadUsers} from "./store/users"
 import {loadUpdates} from "./store/updates"
+import { loadInvestments } from "store/investments";
 import EditForm from './components/ProductPage/EditForm'
+
 
 
 function App() {
@@ -21,22 +23,24 @@ function App() {
   
 
   useEffect(() => {
-    dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+    dispatch(sessionActions.restoreUser())
     dispatch(loadProducts())
     dispatch(loadUsers())
     dispatch(loadUpdates())
+    dispatch(loadInvestments()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
 
   const productsSlice = useSelector((state:StateInterface) => state.products)
   const usersSlice = useSelector((state:StateInterface) => state.users)
-
+  const investmentSlice = useSelector((state:StateInterface) => state.investments)
   const updatesSlice = useSelector((state:StateInterface) => state.updates)
+  
   const products = Object.values(productsSlice)
   const users = Object.values(usersSlice)
   const updates = Object.values(updatesSlice)
-
-
+  const investments = Object.values(investmentSlice)
+  console.log(investments)
 
 
 
@@ -44,7 +48,7 @@ function App() {
     <>
       <Nav sessionUser={sessionUser} products={products} />
         <Routes>
-          <Route path='/'  element={<Home sessionUser={sessionUser} products={products}/>} />
+          <Route path='/'  element={<Home sessionUser={sessionUser} products={products} />} />
           <Route path='/postproduct' element={<ProductForm sessionUser={sessionUser}/>} />
           <Route path='/products/:productId' element={<ProductPage products={products} users={users} sessionUser={sessionUser} updates={updates}/>} />
           <Route path='/products/:productId/edit' element={<EditForm products={products} />} />
