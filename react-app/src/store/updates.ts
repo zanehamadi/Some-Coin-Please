@@ -29,6 +29,21 @@ export const loadUpdates = () => async (dispatch: any):Promise<any> => {
   }
 }
 
+export const editUpdate = (updateData: UpdateAttributes) => async(dispatch:any) => {
+  
+  
+  const res = await csrfFetch(`/api/updates/${updateData.id}`, {
+    method: 'PUT',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(updateData)
+  })
+  if(res.ok){
+    const editedUpdate = await res.json();
+    dispatch(postUpdate(editedUpdate));
+    return editedUpdate.id;
+  }
+}
+
 
 export const createUpdate = (updateData: UpdateAttributes) => async(dispatch:any) => {
     const res = await csrfFetch('/api/updates', {

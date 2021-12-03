@@ -3,7 +3,7 @@ import { useDispatch} from "react-redux";
 import * as sessionActions from "../../store/session";
 import Button from '@mui/material/Button';
 import { loadUsers } from "store/users";
-
+import TextField from '@mui/material/TextField';
 
 
 
@@ -55,47 +55,16 @@ function SignupForm() {
       <ul>
         {errors.map((error, idx) => <li key={idx}>{error}</li>)}
       </ul>
+      <TextField label="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+      <TextField label="Username" value={username} onChange={(e) => setUsername(e.target.value)} required />
+      <TextField label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+      <TextField label="Confirm Password" type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+      
       <label>
-        Email
-        <input
-          type="text"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Username
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Password
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Confirm Password
-        <input
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Upload Profile Pic :)
+        Profile Picture
         <input type="file" onChange={updateFile}/>
       </label>
-      <Button type="submit" variant="outlined" color={errors.length ? "error" : "secondary"} >Sign Up</Button>
+      <Button type="submit" variant="outlined" color={errors.length ? "error" : "primary"} >Sign Up</Button>
     </form>
   );
 }

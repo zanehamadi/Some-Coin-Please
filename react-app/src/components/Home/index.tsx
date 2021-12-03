@@ -1,6 +1,10 @@
-import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
+import ThemeProvider from '@mui/system/ThemeProvider';
+import {theme} from '../styling-variables'
 
 interface HomeProps{
   sessionUser?:any
@@ -20,6 +24,10 @@ function Home({sessionUser, products}:HomeProps){
   }
 
 
+  const handleTabChange = (_event: React.SyntheticEvent, tabValue: string) => {
+    setTab(tabValue);
+  };
+
 
   
 
@@ -32,16 +40,22 @@ function Home({sessionUser, products}:HomeProps){
       <div className="home-container">
         
         <h1>Welcome back, {sessionUser.username}</h1>
+      
+        <Box sx={{ width: '100%'}}>
+          <ThemeProvider theme={theme} >
+            <Tabs
+              value={tab}
+              onChange={handleTabChange}
+              textColor='primary'
+              indicatorColor='secondary'
         
-        <Button variant="outlined" onClick={() => setTab('yourProducts')}>
-          Your Products
-        </Button>
-        <Button variant="outlined" onClick={() => setTab('updates')}>
-          Updates
-        </Button>
-        <Button variant="outlined" onClick={() => setTab('invested')}>
-          Followed/Invested Products
-        </Button>
+            >
+              <Tab value="yourProducts" label="Your Products" />
+              <Tab value="updates" label="Updates" />
+              <Tab value="followedProducts" label="Followed/Funding Products" />
+            </Tabs>
+          </ThemeProvider>
+        </Box>
         
         {tab === 'yourProducts' && 
           <div className="your-products-container">

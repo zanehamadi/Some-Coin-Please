@@ -4,13 +4,14 @@ import Input from "@mui/material/Input"
 import InputAdornment from "@mui/material/InputAdornment"
 import InputLabel from "@mui/material/InputLabel"
 import TextField from "@mui/material/TextField"
-import { secondary } from "components/styling-variables"
 import { useState } from "react"
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import {useNavigate, useParams} from 'react-router-dom'
 import { updateProduct, loadProducts } from "store/products"
 import Button from "@mui/material/Button"
 import { useDispatch } from "react-redux"
+import ThemeProvider from '@mui/system/ThemeProvider';
+import {theme} from '../styling-variables'
 
 interface EditFormProps{
  products?:any;
@@ -102,7 +103,7 @@ function EditForm({products}: EditFormProps){
       
       console.log('REWARDS', rewards)
 
-      const newProductId = await dispatch(updateProduct({
+      const newProductId = dispatch(updateProduct({
         id: product.id, 
         title,
         description,
@@ -114,7 +115,7 @@ function EditForm({products}: EditFormProps){
         image: isImage ? image : ''
       }))
 
-      await dispatch(loadProducts())
+      dispatch(loadProducts())
       clearFunc()
       navigate(`/products/${newProductId}`)
     }
@@ -122,57 +123,61 @@ function EditForm({products}: EditFormProps){
   }
 
   return(
-    <div className="edit-product-form">
-      {validators && 
-        <ul>
-          {validators.map(validator => {
-            <li>{validator}</li>
-          })}
-        </ul>
-      }
-      <h1>Edit Form</h1>
-      <TextField label="Title" variant="outlined" value={title} onChange={e => setTitle(e.target.value)}/>
-      <TextField required multiline  minRows={5} maxRows={5} value={summary} onChange={e => setSummary(e.target.value)} label="Summary"/>
-      <TextField required multiline minRows={10} maxRows={10}  value={description} onChange={e => setDescription(e.target.value) } label="Description"/>
-      <label>
-        Logo/Cover Image  
-        <Input type="file" onChange={updateImage}/>
-      </label>
+    <ThemeProvider theme={theme}>
+      <div className="edit-product-form">
+        {validators && 
+          <ul>
+            {validators.map(validator => {
+              <li>{validator}</li>
+            })}
+          </ul>
+        }
+        <h1>Edit Form</h1>
+        <TextField required color="secondary" label="Title" variant="outlined" value={title} onChange={e => setTitle(e.target.value)}/>
+        <TextField required color="secondary" multiline  minRows={5} maxRows={5} value={summary} onChange={e => setSummary(e.target.value)} label="Summary"/>
+        <TextField required color="secondary" multiline minRows={10} maxRows={10}  value={description} onChange={e => setDescription(e.target.value) } label="Description"/>
+        <label>
+          Logo/Cover Image  
+          <Input type="file" onChange={updateImage} color="secondary"/>
+          
+        </label>
 
-      <h2>Tags:</h2>
-        <div className="tag-checkboxes">
-          {tagNames.map(tag => 
-            <FormControlLabel
-              label={`${tag}`} 
-              control={<Checkbox style={{"color":secondary}}  defaultChecked={tags.has(tag)} onChange={e => tagHandler(e)} />}
-              value={tag}
-            />
-          )}
-        </div>
-
-        <h2>Rewards</h2>
-        {rewards.map((reward:any) => 
-          <div>
-            <h3>Tier {reward.tier}</h3>
-            <TextField label="Description" variant="outlined" value={reward.description} onChange={e => rewardUpdateFunc({reward, description:e.target.value})}/>
-            <InputLabel htmlFor="input-with-icon-adornment">
-              Price
-            </InputLabel>
-            <Input
-            value={reward.price}
-            onChange={e => rewardUpdateFunc({reward, price:+e.target.value})}
-            type="number"
-            startAdornment={
-              <InputAdornment position="start">
-                <AttachMoneyIcon />
-              </InputAdornment>
-            }
-            />
+        <h2>Tags:</h2>
+          <div className="tag-checkboxes">
+            {tagNames.map(tag => 
+              <FormControlLabel
+                label={`${tag}`} 
+                control={<Checkbox  defaultChecked={tags.has(tag)} onChange={e => tagHandler(e)} color="secondary" />}
+                value={tag}
+              />
+            )}
           </div>
-        )}
 
-        <Button onClick={productUpdateHandler}>Update Product</Button>
-    </div>
+          <h2>Rewards</h2>
+          {rewards.map((reward:any) => 
+            <div>
+              <h3>Tier {reward.tier}</h3>
+              <TextField label="Description" variant="outlined" value={reward.description} onChange={e => rewardUpdateFunc({reward, description:e.target.value})}/>
+              <InputLabel htmlFor="input-with-icon-adornment">
+                Price
+              </InputLabel>
+              <Input
+              value={reward.price}
+              onChange={e => rewardUpdateFunc({reward, price:+e.target.value})}
+              type="number"
+              startAdornment={
+                <InputAdornment position="start">
+                  <AttachMoneyIcon color="secondary"/>
+                </InputAdornment>
+              
+              }
+              />
+            </div>
+          )}
+
+          <Button onClick={productUpdateHandler}>Update Product</Button>
+      </div>
+    </ThemeProvider>
   )
 }
 
