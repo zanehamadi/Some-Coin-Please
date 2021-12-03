@@ -5,7 +5,6 @@ import Button from '@mui/material/Button';
 import { outlinedButton } from 'components/styling-variables';
 import { useDispatch } from 'react-redux';
 import {createUpdate} from '../../store/updates'
-import { useNavigate } from 'react-router';
 
 interface UpdateModal{
   product: any;
@@ -16,8 +15,9 @@ function UpdateModal({product}: UpdateModal){
   const [showModal, setShowModal] = useState<boolean>(false);
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
+  const [validators, setValidators] = useState<Array<string>>([])
+  
   const dispatch = useDispatch()
-  const navigate = useNavigate()
   
 
   const submitUpdate = async () => {
@@ -33,11 +33,15 @@ function UpdateModal({product}: UpdateModal){
         description,
         product_id: product.id
       }
-  
-      await dispatch(createUpdate(updateData))
-      navigate(`/products/${product.id}`)
+      
+      setTitle('')
+      setDescription('')
+      dispatch(createUpdate(updateData))
+      setShowModal(false)
 
     }
+    setValidators(updateValidators)
+    
   }
 
   return(
@@ -46,12 +50,23 @@ function UpdateModal({product}: UpdateModal){
     {showModal &&
       
       <Modal onClose={() => setShowModal(false)}>
-      <div>
-
-        <TextField required value={title} onChange={e => setTitle(e.target.value)} label="Title of Update"/>
-        <TextField required multiline minRows={10} maxRows={10}  value={description} onChange={e => setDescription(e.target.value) } label="Description"/>
-        <Button onClick={submitUpdate}>Post Update</Button>
-      </div>
+        <div className="update-modal" style={{margin: '10em'}}>
+          {validators.length ? 
+          <>
+          <ul>
+            {validators.map(validators => 
+              <li>{validators}</li>
+            )}
+          </ul>
+          </>
+          :
+          <>
+          </>
+          }
+          <TextField required value={title} onChange={e => setTitle(e.target.value)} label="Title of Update"/>
+          <TextField required multiline minRows={10} maxRows={10}  value={description} onChange={e => setDescription(e.target.value) } label="Description"/>
+          <Button onClick={submitUpdate}>Post Update</Button>
+        </div>
       </Modal>  
       
     }
