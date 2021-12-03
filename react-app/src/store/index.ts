@@ -5,12 +5,14 @@ import sessionReducer from './session';
 import productReducer from './products';
 import userReducer from './users';
 import updateReducer from './updates';
+import investmentReducer from './investments';
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   products: productReducer,
   users: userReducer,
-  updates: updateReducer
+  updates: updateReducer,
+  investments: investmentReducer
 });
 
 let enhancer:any;

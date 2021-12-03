@@ -1,8 +1,8 @@
 import { csrfFetch } from "./csrf";
-import {DefaultUser, ReduxActions} from 'interfaces'
+import {DefaultUser, ReduxActions, CurrentUser} from 'interfaces'
 
 const GET_USERS = 'users/GET_USERS'
-
+const UPDATE_USER = 'users/UPDATE_USERS'
 
 const getUsers = (users:DefaultUser) => {
   let getUsersAttributes: ReduxActions = {
@@ -12,6 +12,30 @@ const getUsers = (users:DefaultUser) => {
   return getUsersAttributes
 }
 
+const updateUser = (user: CurrentUser) => {
+  let updateUserAction: ReduxActions ={
+    type: UPDATE_USER,
+    payload: user
+  }
+  return updateUserAction
+}
+
+export const editUser = (userData:CurrentUser) => async(dispatch:any) => {
+  
+  const res = await csrfFetch(`/api/users/${userData.id}`, {
+    method: 'PUT',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(userData)
+  })
+  if(res.ok){
+    const editedUser = await res.json();
+    dispatch(updateUser(editedUser));
+    return editedUser.id
+  }
+
+}
+
+
 export const loadUsers = () => async (dispatch:any):Promise<any> => {
   const res = await csrfFetch(`/api/users/`)
   if(res.ok){
@@ -19,6 +43,8 @@ export const loadUsers = () => async (dispatch:any):Promise<any> => {
     dispatch(getUsers(users))
   }
 }
+
+
 
 
 const initialState = {}
@@ -32,6 +58,12 @@ const userReducer = (state = initialState, action:any) => {
       const newState = {}
       action.payload.users.forEach((user:any) => newState[user.id] = user)
       return (newState)
+    
+    case UPDATE_USER: {
+      const newState = {...state};
+      newState[action.payload.id] = action.payload
+      return newState
+    }
     
     default:
       return state

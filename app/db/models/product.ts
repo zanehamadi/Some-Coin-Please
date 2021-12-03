@@ -36,6 +36,8 @@ module.exports = (sequelize:any, DataTypes:any) => {
     static associate(models:any) {
       Product.belongsTo(models.User, {foreignKey:'user_id'})
       Product.hasMany(models.Update, {foreignKey:'product_id'})
+      Product.hasMany(models.Investment, {foreignKey:'product_id'})
+
     }
   };
   Product.init({

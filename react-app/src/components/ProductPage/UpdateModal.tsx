@@ -3,7 +3,9 @@ import { useState } from 'react';
 import { Modal } from '../../context/Modal';
 import Button from '@mui/material/Button';
 import { useDispatch } from 'react-redux';
-import {createUpdate} from '../../store/updates'
+import {createUpdate, loadUpdates} from '../../store/updates'
+import {useUpdateTrigger} from '../../context/updateTrigger'
+import { loadProducts } from 'store/products';
 
 interface UpdateModal{
   product: any;
@@ -15,6 +17,7 @@ function UpdateModal({product}: UpdateModal){
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [validators, setValidators] = useState<Array<string>>([])
+  const {updateTrigger, setUpdateTrigger}:any = useUpdateTrigger()
   
   const dispatch = useDispatch()
   
@@ -35,7 +38,10 @@ function UpdateModal({product}: UpdateModal){
       
       setTitle('')
       setDescription('')
-      dispatch(createUpdate(updateData))
+      await dispatch(createUpdate(updateData))
+      await dispatch(loadUpdates())
+      await dispatch(loadProducts())
+      setUpdateTrigger(!updateTrigger)
       setShowModal(false)
 
     }

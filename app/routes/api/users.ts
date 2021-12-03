@@ -1,13 +1,12 @@
 import express from 'express'
 import asyncHandler from 'express-async-handler';
-import { setTokenCookie, restoreUser } from '../../util/auth';
+import { setTokenCookie} from '../../util/auth';
 import db  from '../../db/models';
 import { check } from 'express-validator';
 import {handleValidationErrors}  from '../../util/validation';
 import {singleMulterUpload, singlePublicFileUpload} from '../../awsS3'
 
 const User: any = db.User
-const Product: any = db.Product
 const router = express.Router();
 
 interface CreateUserCredentials{
@@ -17,7 +16,23 @@ interface CreateUserCredentials{
     profile_picture?: string;
 }
 
+interface UpdateUserAttributes{
+  username: string;
+  profile_picture: string;
+  balance: number;
+}
 
+const validateUserUpdate = [
+  check('balance')
+  .exists({ checkFalsy: true })
+  .withMessage('How did you get here?'),
+  check('username')
+  .exists({ checkFalsy: true })
+  .withMessage('How did you get here?'),
+  check('profile_picture')
+  .exists({ checkFalsy: true })
+  .withMessage('How did you get here?'),
+]
 
 const validateSignup = [
   check('email')
@@ -76,6 +91,22 @@ router.post(
       return res.json({
         users
       })
+    })
+  )
+
+
+  router.put(
+    '/:id',
+    validateUserUpdate,
+
+    asyncHandler(async (req:any, res:any) => {
+      const {username, profile_picture, balance}: UpdateUserAttributes = req.body
+      const user = await User.findByPk(+req.params.id);
+      user.username = username;
+      user.profile_picture = profile_picture;
+      user.balance = balance;
+      await user.save()
+      return res.json(user)
     })
   )
 

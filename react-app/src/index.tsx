@@ -9,7 +9,7 @@ import configureStore from './store';
 import { restoreCSRF , csrfFetch } from 'store/csrf';
 import * as sessionActions from './store/session'
 import { ModalProvider } from 'context/Modal';
-
+import UpdateTriggerProvider from 'context/updateTrigger';
 const store = configureStore();
 
 let isProduction: boolean = process.env.NODE_ENV === 'production'
@@ -25,9 +25,11 @@ function Root() {
   return (
       <Provider store={store}>
         <ModalProvider>
+        <UpdateTriggerProvider>
           <BrowserRouter>
             <App />
           </BrowserRouter>
+        </UpdateTriggerProvider>
         </ModalProvider>
       </Provider>
   );

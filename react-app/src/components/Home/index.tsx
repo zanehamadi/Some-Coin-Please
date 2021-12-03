@@ -1,27 +1,57 @@
-import { useState } from 'react';
+
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import ThemeProvider from '@mui/system/ThemeProvider';
 import {theme} from '../styling-variables'
+import {useUpdateTrigger} from '../../context/updateTrigger'
 
 interface HomeProps{
-  sessionUser?:any
-  products?:any
+  sessionUser?:any;
+  products?:any;
+  updates?:any;
 }
 
 function Home({sessionUser, products}:HomeProps){
   
   const [tab, setTab] = useState<string>('updates');
   const navigate = useNavigate()
-
+  const {updateTrigger}:any = useUpdateTrigger()
+  
+  
   let userId = sessionUser ? sessionUser.id : ''
-  let userProducts;
+ 
+  const [userProducts, setUserProducts] = useState<any>('')
+  const [userInvestments, setUserInvestments] = useState<any>('')
+  const [investedProductUpdates, setInvestedProductUpdates] = useState<Array<any>>([])
 
-  if(userId){
-    userProducts = products.filter((product:any) => product.user_id === userId)
-  }
+
+  useEffect(() => {
+
+    let filteredUserProducts = products.filter((product:any) => product.user_id === userId)
+    setUserProducts(filteredUserProducts)
+
+
+    let filteredUserInvestments = products.filter((product:any) => product.funders.includes(userId))
+    setUserInvestments(filteredUserInvestments)
+    let filteredInvestedProducts: Array<any> = []
+
+
+    filteredUserInvestments?.forEach((product:any) => {
+      if(product.Updates.length){
+        product.Updates.forEach((update:any) => filteredInvestedProducts.push(update))
+      }
+    })
+    setInvestedProductUpdates(filteredInvestedProducts)
+
+
+  }, [updateTrigger])
+
+  
+
+
 
 
   const handleTabChange = (_event: React.SyntheticEvent, tabValue: string) => {
@@ -29,8 +59,8 @@ function Home({sessionUser, products}:HomeProps){
   };
 
 
-  
 
+  
   return(
     <>
       {sessionUser ? 
@@ -66,6 +96,44 @@ function Home({sessionUser, products}:HomeProps){
               </div>
             )}
           </div>
+        }
+
+        {tab === 'updates' &&
+          <div className="followed-products-page">
+            {userInvestments.length ?
+              <>
+                {investedProductUpdates.length ?
+                
+                  <>
+                    {investedProductUpdates?.map((update:any) => {
+
+                      let specificProduct = products.find((product:any) => product.id === update.product_id)
+                      return(
+                        <>
+                          <h2>{specificProduct.title}</h2>
+                          <h3>{update.title}</h3>
+                          <p>{update.description}</p>
+                          
+                        </>
+                      )
+                    }
+
+                    )}
+
+                  </>
+                  :
+                  <>
+                    <h2>Followed/Funded Products have not been updated.</h2>
+                  </>
+                }
+              </>
+              :
+              <>
+                <h3>You have not funded nor followed any products.</h3>
+              </>
+            }
+          </div>
+        
         }
       </div>
       :
