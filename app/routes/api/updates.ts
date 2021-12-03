@@ -67,4 +67,18 @@ router.post(
   })
 )
 
+
+router.put(
+  '/:id',
+  asyncHandler(async (req:any, res:any) => {
+    const {title, description}:UpdateAttributes = req.body
+    const update = await Update.findByPk(+req.params.id)
+    update.title = title
+    update.description = description
+    await update.save()
+    return res.json(update)
+    
+  })
+)
+
 export default router

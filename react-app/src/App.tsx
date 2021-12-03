@@ -8,8 +8,8 @@ import Nav from "components/Nav";
 import ProductForm from "components/ProductForm";
 import ProductPage from "components/ProductPage";
 import { loadProducts } from "store/products";
-import {loadUsers} from "store/users"
-import {loadUpdates} from "store/updates"
+import {loadUsers} from "./store/users"
+import {loadUpdates} from "./store/updates"
 import EditForm from './components/ProductPage/EditForm'
 
 function App() {
@@ -38,7 +38,6 @@ function App() {
 
 
 
-  console.log(updates)
 
   return ( isLoaded ?
     <>
@@ -46,7 +45,7 @@ function App() {
       <Routes>
         <Route path='/'  element={<Home sessionUser={sessionUser} products={products}/>} />
         <Route path='/postproduct' element={<ProductForm sessionUser={sessionUser}/>} />
-        <Route path='/products/:productId' element={<ProductPage products={products} users={users} sessionUser={sessionUser}/>} />
+        <Route path='/products/:productId' element={<ProductPage products={products} users={users} sessionUser={sessionUser} updates={updates}/>} />
         <Route path='/products/:productId/edit' element={<EditForm products={products} />} />
       </Routes>
     </>

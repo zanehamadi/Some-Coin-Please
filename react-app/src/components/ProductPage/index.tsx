@@ -3,18 +3,23 @@ import {useNavigate, useParams} from 'react-router-dom'
 import Button from '@mui/material/Button';
 import DeleteModal from './DeleteModal'
 import UpdateModal from './UpdateModal'
+import EditUpdateModal from './EditUpdateModal'
 
 interface ProductPageProps{
   products?: any;
   users?: any;
   sessionUser?: any;
+  updates?:any;
 }
 
-function ProductPage({products, users, sessionUser}:ProductPageProps) {
+function ProductPage({products, users, sessionUser, updates}:ProductPageProps) {
+  
   let {productId}:any = useParams()
   let product = products?.find((specProduct:any) => specProduct.id === parseInt(productId))
   let user = users?.find((u:any) => u?.id === product?.user_id)
   let navigate = useNavigate()
+  let postUpdates = updates.filter((update:any) => +update.product_id === +productId)
+  if(postUpdates.length) postUpdates.reverse()
   const [updateTab, setUpdateTab] = useState<boolean>(false)
   const isPoster = user?.id === sessionUser?.id
   
@@ -22,7 +27,7 @@ function ProductPage({products, users, sessionUser}:ProductPageProps) {
     updateTab ? setUpdateTab(false) : setUpdateTab(true)
   }
 
-  
+  console.log('updates', postUpdates)
   
 
   return(
@@ -38,11 +43,37 @@ function ProductPage({products, users, sessionUser}:ProductPageProps) {
             <img src={product?.image} />
             <h3>{`invented by ${user?.username}`}</h3>
             {updateTab ? 
-            <>
+            <div className="product-update-tab">
+              
               <Button onClick={updateTabSwitch}>Description</Button>
               <h2>Updates</h2>
 
-            </>
+              {
+                postUpdates ?
+                
+                <>
+                  {postUpdates.map((update:any) => 
+                  
+                  <>
+                    <h3>{update.title}</h3>
+                    <p>{update.description}</p>
+                    {isPoster && 
+                      <EditUpdateModal update={update}/>
+                    }
+                  </>
+                  )}
+                </>
+
+                :
+
+                <>
+                 <h2>There are no updates for this product.</h2>
+                </>
+
+              }
+
+
+            </div>
             :
             <>
               <Button onClick={updateTabSwitch}>Updates</Button>

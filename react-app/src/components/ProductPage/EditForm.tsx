@@ -102,7 +102,7 @@ function EditForm({products}: EditFormProps){
       
       console.log('REWARDS', rewards)
 
-      const newProductId = await dispatch(updateProduct({
+      const newProductId = dispatch(updateProduct({
         id: product.id, 
         title,
         description,
@@ -114,7 +114,7 @@ function EditForm({products}: EditFormProps){
         image: isImage ? image : ''
       }))
 
-      await dispatch(loadProducts())
+      dispatch(loadProducts())
       clearFunc()
       navigate(`/products/${newProductId}`)
     }
