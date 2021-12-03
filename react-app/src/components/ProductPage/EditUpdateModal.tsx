@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Modal } from '../../context/Modal';
 import Button from '@mui/material/Button';
-import {outlinedButton} from '../styling-variables'
 import {editUpdate, loadUpdates} from '../../store/updates'
 import TextField from '@mui/material/TextField';
 import { useDispatch } from 'react-redux';
@@ -46,7 +45,7 @@ function EditUpdateModal({update}: EditUpdateModalProps){
 
   return(
     <>
-      <Button variant="outlined" style={outlinedButton} onClick={() => setShowModal(true)}>Edit Update</Button>
+      <Button variant="outlined" onClick={() => setShowModal(true)}>Edit Update</Button>
       {showModal && 
         <Modal onClose={() => setShowModal(false)}>
         <>

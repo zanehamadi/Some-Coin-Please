@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Modal } from '../../context/Modal';
 import Button from '@mui/material/Button';
-import {outlinedButton} from '../styling-variables'
 import {deleteAProduct, loadProducts} from '../../store/products'
 import TextField from '@mui/material/TextField';
 import { useDispatch } from 'react-redux';
@@ -31,7 +30,7 @@ function DeleteModal({product}: DeleteModalProps){
 
   return(
     <>
-      <Button variant="outlined" style={outlinedButton} onClick={() => setShowModal(true)}>Delete Product</Button>
+      <Button variant="outlined" onClick={() => setShowModal(true)}>Delete Product</Button>
       {showModal && 
         <Modal onClose={() => setShowModal(false)}>
         <>

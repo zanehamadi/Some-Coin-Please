@@ -11,8 +11,8 @@ import Input from '@mui/material/Input';
 import { createProduct, loadProducts } from 'store/products';
 import { useDispatch} from "react-redux";
 import { useNavigate } from 'react-router';
-import {primary, secondary} from '../styling-variables'
-
+import ThemeProvider from '@mui/system/ThemeProvider';
+import {theme} from '../styling-variables'
 
 
 interface ProductFormProps{
@@ -136,7 +136,7 @@ function ProductForm({sessionUser}:ProductFormProps){
 
   return(
     
-    <>
+    <ThemeProvider theme={theme}>
     {sessionUser ? 
     
     <Box component="form" autoComplete="off" >
@@ -149,13 +149,13 @@ function ProductForm({sessionUser}:ProductFormProps){
           )}
         </ul>
 
-        <TextField required value={title} onChange={e => setTitle(e.target.value)} label="Product Name"/>
-        <TextField required multiline  minRows={5} maxRows={5} value={summary} onChange={e => setSummary(e.target.value)} label="Summary"/>
-        <TextField required multiline minRows={10} maxRows={10}  value={description} onChange={e => setDescription(e.target.value) } label="Description"/>
+        <TextField required color="secondary" value={title} onChange={e => setTitle(e.target.value)} label="Product Name"/>
+        <TextField required color="secondary" multiline  minRows={5} maxRows={5} value={summary} onChange={e => setSummary(e.target.value)} label="Summary"/>
+        <TextField required color="secondary" multiline minRows={10} maxRows={10}  value={description} onChange={e => setDescription(e.target.value) } label="Description"/>
 
         <label>
           Logo/Cover Image  
-          <Input type="file" onChange={updateImage}/>
+          <Input type="file" color="secondary" onChange={updateImage}/>
         </label>
 
 
@@ -164,8 +164,9 @@ function ProductForm({sessionUser}:ProductFormProps){
           {tagNames.map(tag => 
             <FormControlLabel
               label={`${tag}`} 
-              control={<Checkbox style={{"color":secondary}} onChange={e => tagHandler(e)} />}
+              control={<Checkbox onChange={e => tagHandler(e)} color="secondary" />}
               value={tag}
+              
             />
           )}
         </div>
@@ -197,6 +198,7 @@ function ProductForm({sessionUser}:ProductFormProps){
             value={tierPrice}
             onChange={e => setTierPrice(+e.target.value)}
             type="number"
+            color="secondary"
             startAdornment={
               <InputAdornment position="start">
             
@@ -204,14 +206,14 @@ function ProductForm({sessionUser}:ProductFormProps){
             </InputAdornment>
             }
             />
-            <TextField required multiline  value={tierDescription} onChange={e => setTierDescription(e.target.value) } label="Tier Description"/> 
-            <Button variant="contained" style={{'backgroundColor': secondary}} onClick={tierHandler}>Create Tier</Button>
+            <TextField required multiline  value={tierDescription} onChange={e => setTierDescription(e.target.value) } color="secondary" label="Tier Description"/> 
+            <Button variant="outlined" color="primary" onClick={tierHandler}>Create Tier</Button>
             </div>
 
 
         </div>
 
-        <Button variant="contained" style={{'backgroundColor':primary, 'color': 'black'}} onClick={productCreationHandler} >CREATE</Button>
+        <Button variant="outlined" color="primary" onClick={productCreationHandler} >CREATE</Button>
 
       </div>
 
@@ -225,7 +227,7 @@ function ProductForm({sessionUser}:ProductFormProps){
     
     }
 
-    </>
+    </ThemeProvider>
 
   )
 

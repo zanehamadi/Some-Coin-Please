@@ -4,7 +4,6 @@ import Input from "@mui/material/Input"
 import InputAdornment from "@mui/material/InputAdornment"
 import InputLabel from "@mui/material/InputLabel"
 import TextField from "@mui/material/TextField"
-import { secondary } from "components/styling-variables"
 import { useState } from "react"
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import {useNavigate, useParams} from 'react-router-dom'
@@ -144,7 +143,7 @@ function EditForm({products}: EditFormProps){
           {tagNames.map(tag => 
             <FormControlLabel
               label={`${tag}`} 
-              control={<Checkbox style={{"color":secondary}}  defaultChecked={tags.has(tag)} onChange={e => tagHandler(e)} />}
+              control={<Checkbox  defaultChecked={tags.has(tag)} onChange={e => tagHandler(e)} />}
               value={tag}
             />
           )}

@@ -1,14 +1,14 @@
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import {CurrentUser, ButtonStyling} from 'interfaces'
+import {CurrentUser} from 'interfaces'
 import LoginFormModal from '../LoginFormModal'
 import SignupFormModal from '../SignupFormModal'
 import { logoutUser, loginUser } from 'store/session';
 import { useDispatch } from 'react-redux';
 import {useNavigate} from 'react-router'
 import Search from '../Search/index'
-import {primary, outlinedButton} from '../styling-variables'
-
+import ThemeProvider from '@mui/system/ThemeProvider';
+import {theme} from '../styling-variables'
 
 interface NavProps{
   sessionUser?: CurrentUser;
@@ -28,32 +28,33 @@ function Nav({sessionUser, products}:NavProps){
     return dispatch(loginUser({ credential, password }))
   }
 
-  const buttonStyling:ButtonStyling = {
-    color: 'black',
-    backgroundColor: primary
-  }
+
 
   return(
     <>
+    <ThemeProvider theme={theme}>
     {
       sessionUser ?
-          <Stack direction="row" spacing={3}>
-              <Button variant="contained" onClick={() => dispatch(logoutUser())} style={buttonStyling} >Logout</Button>
-              <Button variant="outlined" style={outlinedButton} onClick={() => navigate('/')}>Home</Button>
+
+
+      <Stack direction="row" spacing={3}>
+              <Button variant="contained" color="primary" onClick={() => dispatch(logoutUser())}  >Logout</Button>
+              <Button variant="outlined"  color="primary" onClick={() => navigate('/')}>Home</Button>
               <Search products={products}/>
-              <Button variant="outlined" style={outlinedButton} onClick={() => navigate('/postproduct')}>Post a Product</Button>
+              <Button variant="outlined" color="primary" onClick={() => navigate('/postproduct')}>Post a Product</Button>
           </Stack>
         
-      :
-          <Stack direction="row" spacing={2}>
+        :
+        <Stack direction="row" spacing={2}>
             <LoginFormModal/>
             <SignupFormModal/>
-            <Button variant="contained" onClick={e => demoFunction(e)} style={buttonStyling} >Demo</Button>
-            <Button variant="outlined" style={outlinedButton} onClick={() => navigate('/')}>Home</Button>
+            <Button variant="contained" color="primary" onClick={e => demoFunction(e)}  >Demo</Button>
+            <Button variant="outlined"  color="primary" onClick={() => navigate('/')}>Home</Button>
             <Search products={products}/>
           </Stack>
 
-    }
+}
+    </ThemeProvider>
     </>
   )
 }
