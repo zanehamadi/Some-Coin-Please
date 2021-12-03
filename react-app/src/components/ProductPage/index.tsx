@@ -2,7 +2,7 @@ import { useState } from 'react'
 import {useNavigate, useParams} from 'react-router-dom'
 import Button from '@mui/material/Button';
 import DeleteModal from './DeleteModal'
-
+import UpdateModal from './UpdateModal'
 
 interface ProductPageProps{
   products?: any;
@@ -33,8 +33,8 @@ function ProductPage({products, users, sessionUser}:ProductPageProps) {
           <div className="main-content">
             <h1>{product?.title}</h1>
             {isPoster && <Button onClick={() => navigate(`/products/${productId}/edit`)}>Edit Product</Button>}
-            {isPoster && <Button>Post an Update</Button>}
-            {isPoster && <DeleteModal product={product}/>}
+            {isPoster && <UpdateModal product={product}/> }
+            {isPoster && <DeleteModal product={product} />}
             <img src={product?.image} />
             <h3>{`invented by ${user?.username}`}</h3>
             {updateTab ? 
