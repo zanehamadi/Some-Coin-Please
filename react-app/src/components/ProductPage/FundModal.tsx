@@ -5,17 +5,18 @@ import { useState } from 'react';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import Input from '@mui/material/Input';
 import {editUser, loadUsers} from '../../store/users'
-import {createInvestment, loadInvestments} from '../../store/investments'
+import {createInvestment, loadInvestments, updateInvestment} from '../../store/investments'
 import { useDispatch } from 'react-redux';
 import LinearProgress from '@mui/material/LinearProgress';
 import Snackbar from '@mui/material/Snackbar';
 
 interface FundModalProps{
-  sessionUser: any;
-  product: any;
+  sessionUser?: any;
+  product?: any;
+  investments?:any;
 }
 
-function FundModal({sessionUser, product}: FundModalProps){
+function FundModal({sessionUser, product, investments}: FundModalProps){
 
   const [showModal, setShowModal] = useState<boolean>(false);
   const [validators, setValidators] = useState<Array<string>>([])
@@ -33,11 +34,23 @@ function FundModal({sessionUser, product}: FundModalProps){
     if(!amount) submitValidators.push('Please enter a valid amount.')
 
     if(!submitInvestment.length){
-      await dispatch(createInvestment({
-        product_id: product.id,
-        user_id: sessionUser.id,
-        amount
-      }))
+      
+      if(product.funders.includes(sessionUser.id)){
+        let investment = investments.find((invest:any) => 
+          (+invest.user_id === +sessionUser.id) && (+invest.product_id === +product.id)
+        )
+        console.log(investment)
+        await dispatch(updateInvestment({
+          amount: (+investment.amount + +amount),
+          id: +investment.id
+        }))
+      }else{
+        await dispatch(createInvestment({
+          product_id: product.id,
+          user_id: sessionUser.id,
+          amount
+        }))
+      }
       setProgress(25)
       await dispatch(editUser({
         id: sessionUser.id,

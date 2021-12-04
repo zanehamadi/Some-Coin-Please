@@ -59,4 +59,15 @@ router.post(
   })
 )
 
+router.put(
+  '/:id',
+  asyncHandler(async (req:any, res:any) => {
+    const {amount}:any = req.body
+    const investment = await Investment.findByPk(+req.params.id)
+    investment.amount = amount
+    await investment.save()
+    return res.json(investment)
+  })
+)
+
 export default router

@@ -40,7 +40,6 @@ function App() {
   const users = Object.values(usersSlice)
   const updates = Object.values(updatesSlice)
   const investments = Object.values(investmentSlice)
-  console.log(investments)
 
 
 
@@ -50,7 +49,7 @@ function App() {
         <Routes>
           <Route path='/'  element={<Home sessionUser={sessionUser} products={products} />} />
           <Route path='/postproduct' element={<ProductForm sessionUser={sessionUser}/>} />
-          <Route path='/products/:productId' element={<ProductPage products={products} users={users} sessionUser={sessionUser} updates={updates}/>} />
+          <Route path='/products/:productId' element={<ProductPage products={products} users={users} sessionUser={sessionUser} updates={updates} investments={investments} />} />
           <Route path='/products/:productId/edit' element={<EditForm products={products} />} />
         </Routes>
     </>

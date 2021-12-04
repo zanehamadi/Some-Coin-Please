@@ -6,7 +6,6 @@ const POST_INVESTMENT: string = "investments/POST_INVESTMENTS"
 const GET_INVESTMENT: string = "investments/GET_INVESTMENTS"
 
 
-
 const postInvestment = (investment: InvestmentAttributes) => {
   let postInvestmentAction: ReduxActions = {
     type: POST_INVESTMENT,
@@ -23,6 +22,7 @@ const getInvestments = (investments: InvestmentAttributes) => {
 
   return getInvestmentsAction
 }
+
 
 
 export const loadInvestments = () => async (dispatch:any):Promise<any> => {
@@ -44,6 +44,21 @@ export const createInvestment = (investmentData: InvestmentAttributes) => async(
   if(res.ok){
     const newInvestment = await res.json();
     dispatch(postInvestment(newInvestment));
+  }
+}
+
+export const updateInvestment = (investmentData:any) => async(dispatch:any) => {
+  
+  const res = await csrfFetch(`/api/investments/${investmentData.id}`,
+  {
+    method: 'PUT',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(investmentData)
+  })
+
+  if(res.ok){
+    const updatedInvestment = await res.json();
+    dispatch(postInvestment(updatedInvestment))
   }
 }
 
