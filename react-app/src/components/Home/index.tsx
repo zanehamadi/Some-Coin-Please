@@ -122,10 +122,25 @@ function Home({sessionUser, products, investments}:HomeProps){
             {userProducts.length ? 
             <>
               {userProducts?.map((product:any) => 
-                <div className="your-specific-product" onClick={() => navigate(`/products/${product.id}`)}>
-                <h2>{product.title}</h2>
-                <img src={product.image}/>
-                </div>
+                <Card sx={{ maxWidth: 500}}>
+                  <CardMedia
+                  component="img"
+                  height="300"
+                  image={product.image}
+                  alt={`${product?.title} logo`}
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h3" component="div">
+                        {product?.title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        {product?.sumarry}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button size="large" variant="outlined" color="primary" onClick={() => navigate(`/products/${product.id}`)}>Visit Page</Button>
+                  </CardActions>
+                </Card>
               )}
             </>
             :
@@ -144,15 +159,23 @@ function Home({sessionUser, products, investments}:HomeProps){
                 
                   <>
                     {investedProductUpdates?.map((update:any) => {
-
+                      
                       let specificProduct = products.find((product:any) => product.id === update.product_id)
                       return(
-                        <>
-                          <h2>{specificProduct.title}</h2>
-                          <h3>{update.title}</h3>
-                          <p>{update.description}</p>
+                        <Card variant="outlined" sx={{ maxWidth: 800 }}>
+                          <CardContent>
+                            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                              {specificProduct.title}
+                            </Typography>
+                            <Typography variant="h5" component="div">
+                              {update.title}
+                            </Typography>
+                            <Typography variant="body2">
+                              {update.description}
+                            </Typography>
+                          </CardContent>
                           
-                        </>
+                        </Card>
                       )
                     }
 
