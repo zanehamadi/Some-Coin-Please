@@ -78,8 +78,13 @@ export interface StateInterface{
 }
 
 export interface InvestmentAttributes{
-  id?: any
-  product_id: any;
-  user_id: any;
-  amount: any;
+  id?: number | string;
+  product_id: number | string;
+  user_id: number | string;
+  amount: number | string;
+}
+
+export interface CoinPurchaseAttributes{
+  id?: number | string;
+  amount?: number | string;
 }

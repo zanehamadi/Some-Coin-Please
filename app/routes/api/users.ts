@@ -5,9 +5,13 @@ import db  from '../../db/models';
 import { check } from 'express-validator';
 import {handleValidationErrors}  from '../../util/validation';
 import {singleMulterUpload, singlePublicFileUpload} from '../../awsS3'
+import config from '../../config';
 
+const stripe = require('stripe')(config.stripeKey);
 const User: any = db.User
 const router = express.Router();
+
+
 
 interface CreateUserCredentials{
     email: string;
@@ -84,7 +88,7 @@ router.post(
   );
 
 
-  router.get(
+router.get(
     '/',
     asyncHandler(async (req: any, res:any) => {
       const users = await User.findAll()
@@ -92,10 +96,24 @@ router.post(
         users
       })
     })
-  )
+)
 
+router.post(
+      `/:id/charges`,
+      asyncHandler(async (req:any, res:any) => {
+        
+        const {amount} = req.body
+        await stripe.charges.create({
+          amount: amount * 100,
+          currency: 'usd',
+          source: 'tok_bypassPending',
+          description: `User ${req.params.id} purchased ${amount} coin.`,
+        });
+        return res.json({'message':'transaction was sucessful'})
+      })
+)
 
-  router.put(
+router.put(
     '/:id',
     validateUserUpdate,
 
@@ -108,7 +126,7 @@ router.post(
       await user.save()
       return res.json(user)
     })
-  )
+)
 
 
 
