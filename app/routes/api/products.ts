@@ -71,7 +71,6 @@ router.get(
     products.forEach((product:any) => {
       product.dataValues.funders = product.dataValues.Investments.map((investment:any) => investment.user_id)
       delete product.dataValues.Investments
-      product.dataValues.funders = Array.from(new Set(product.dataValues.funders))
     })
     
     return res.json({
@@ -107,7 +106,6 @@ router.post(
     })
     product.dataValues.funders = product.dataValues.Investments.map((investment:any) => investment.user_id)
     delete product.dataValues.Investments
-    product.dataValues.funders = Array.from(new Set(product.dataValues.funders))
     return res.json(product)
   })
 )
@@ -139,7 +137,6 @@ router.put(
     if(image) product.image = image;
     product.dataValues.funders = product.dataValues.Investments.map((investment:any) => investment.user_id)
     delete product.dataValues.Investments
-    product.dataValues.funders = Array.from(new Set(product.dataValues.funders))
 
     await product.save()
     return res.json(product)

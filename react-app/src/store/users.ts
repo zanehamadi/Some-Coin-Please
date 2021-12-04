@@ -1,5 +1,5 @@
 import { csrfFetch } from "./csrf";
-import {DefaultUser, ReduxActions, CurrentUser} from 'interfaces'
+import {DefaultUser, ReduxActions, CurrentUser, CoinPurchaseAttributes} from 'interfaces'
 
 const GET_USERS = 'users/GET_USERS'
 const UPDATE_USER = 'users/UPDATE_USERS'
@@ -12,8 +12,10 @@ const getUsers = (users:DefaultUser) => {
   return getUsersAttributes
 }
 
+
+
 const updateUser = (user: CurrentUser) => {
-  let updateUserAction: ReduxActions ={
+  let updateUserAction: ReduxActions = {
     type: UPDATE_USER,
     payload: user
   }
@@ -44,6 +46,17 @@ export const loadUsers = () => async (dispatch:any):Promise<any> => {
   }
 }
 
+export const purchaseCoin = (purchase:CoinPurchaseAttributes) => async():Promise<any> => {
+  const res = await csrfFetch(`/api/users/${purchase.id}/charges`, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(purchase)
+  })
+
+  if(res.ok){
+    return 'GOOD'
+  }
+}
 
 
 
@@ -64,6 +77,7 @@ const userReducer = (state = initialState, action:any) => {
       newState[action.payload.id] = action.payload
       return newState
     }
+
     
     default:
       return state

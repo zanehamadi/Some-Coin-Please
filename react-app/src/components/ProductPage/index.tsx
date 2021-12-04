@@ -15,9 +15,10 @@ interface ProductPageProps{
   users?: any;
   sessionUser?: any;
   updates?:any;
+  investments?:any
 }
 
-function ProductPage({products, users, sessionUser, updates}:ProductPageProps) {
+function ProductPage({products, users, sessionUser, updates, investments}:ProductPageProps) {
   
   let {productId}:any = useParams()
   let product = products?.find((specProduct:any) => specProduct.id === parseInt(productId))
@@ -130,7 +131,7 @@ function ProductPage({products, users, sessionUser, updates}:ProductPageProps) {
                 {sessionUser ?
                   <>
                   
-                    <FundModal sessionUser={sessionUser} product={product}/>
+                    <FundModal sessionUser={sessionUser} product={product} investments={investments} />
                   
                   </>
                   :
