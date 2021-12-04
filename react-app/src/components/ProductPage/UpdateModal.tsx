@@ -94,6 +94,7 @@ function UpdateModal({product, update}: UpdateModal){
         setShowModal(false)
       }
     }
+    setValidators(updateValidators)
   }
 
   const style = {
@@ -120,6 +121,15 @@ function UpdateModal({product, update}: UpdateModal){
         open={showModal}
       >
         <Box sx={style}>
+            {validators.length ? 
+            <ul>
+              {validators.map(validator => <li>{validator}</li>)}
+            </ul>
+            :
+            <>
+            </>
+            }
+            <h2> Edit Update </h2>
             <TextField label="Title" style={{"width":"100%"}} variant="filled" value={title} onChange={e => setTitle(e.target.value)} />
             <br/>
             <TextField label="Description" style={{"width":"100%"}} variant="filled" value={description} onChange={e => setDescription(e.target.value)} multiline />
@@ -148,6 +158,7 @@ function UpdateModal({product, update}: UpdateModal){
         open={showModal}
         >
           <Box sx={style}>
+            
             <div className="update-modal" style={{margin: '10em'}}>
               {validators.length ? 
               <>
@@ -161,6 +172,7 @@ function UpdateModal({product, update}: UpdateModal){
               <>
               </>
               }
+              <h2> Create an update </h2>
               <TextField style={{"width":"100%"}} required value={title} onChange={e => setTitle(e.target.value)} label="Title of Update"/>
               <br/>
               <TextField style={{"width":"100%", "marginTop":"10px"}} required multiline minRows={10} maxRows={10}  value={description} onChange={e => setDescription(e.target.value) } label="Description"/>
