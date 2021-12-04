@@ -9,6 +9,7 @@ import {createInvestment, loadInvestments, updateInvestment} from '../../store/i
 import { useDispatch } from 'react-redux';
 import LinearProgress from '@mui/material/LinearProgress';
 import Snackbar from '@mui/material/Snackbar';
+import { loadProducts } from 'store/products';
 
 interface FundModalProps{
   sessionUser?: any;
@@ -39,7 +40,7 @@ function FundModal({sessionUser, product, investments}: FundModalProps){
         let investment = investments.find((invest:any) => 
           (+invest.user_id === +sessionUser.id) && (+invest.product_id === +product.id)
         )
-        console.log(investment)
+
         await dispatch(updateInvestment({
           amount: (+investment.amount + +amount),
           id: +investment.id
@@ -63,6 +64,7 @@ function FundModal({sessionUser, product, investments}: FundModalProps){
       await dispatch(loadUsers())
       setProgress(75)
       await dispatch(loadInvestments())
+      await dispatch(loadProducts())
       setProgress(100)
       setFundSucessful(true)
       setOpenSnack(true)
@@ -77,7 +79,7 @@ function FundModal({sessionUser, product, investments}: FundModalProps){
     setFundSucessful(false)
     setOpenSnack(false)
     setProgress(0)
-    setAmount(0)
+    setAmount('')
   }
 
   return(

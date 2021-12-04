@@ -70,4 +70,13 @@ router.put(
   })
 )
 
+router.delete(
+  '/:id',
+  asyncHandler(async (req:any, res:any) => {
+    const investment = await Investment.findByPk(+req.params.id)
+    await investment.destroy()
+    return res.json({'message': 'Investment has been deleted.'})
+  })
+)
+
 export default router

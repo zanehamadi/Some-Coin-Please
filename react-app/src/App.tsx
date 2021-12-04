@@ -47,7 +47,7 @@ function App() {
     <>
       <Nav sessionUser={sessionUser} products={products} />
         <Routes>
-          <Route path='/'  element={<Home sessionUser={sessionUser} products={products} />} />
+          <Route path='/'  element={<Home sessionUser={sessionUser} products={products} investments={investments} />} />
           <Route path='/postproduct' element={<ProductForm sessionUser={sessionUser}/>} />
           <Route path='/products/:productId' element={<ProductPage products={products} users={users} sessionUser={sessionUser} updates={updates} investments={investments} />} />
           <Route path='/products/:productId/edit' element={<EditForm products={products} />} />
