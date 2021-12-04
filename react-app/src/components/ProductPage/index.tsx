@@ -1,9 +1,7 @@
 import { useState } from 'react'
 import {useNavigate, useParams} from 'react-router-dom'
 import Button from '@mui/material/Button';
-import DeleteModal from './DeleteModal'
 import UpdateModal from './UpdateModal'
-import EditUpdateModal from './EditUpdateModal'
 import ThemeProvider from '@mui/system/ThemeProvider';
 import {theme} from '../styling-variables'
 import Tabs from '@mui/material/Tabs';
@@ -25,7 +23,7 @@ function ProductPage({products, users, sessionUser, updates, investments}:Produc
   let user = users?.find((u:any) => u?.id === product?.user_id)
   let navigate = useNavigate()
   let postUpdates = updates.filter((update:any) => +update.product_id === +productId)
-  if(postUpdates.length) postUpdates.reverse()
+
 
 
 
@@ -49,8 +47,8 @@ function ProductPage({products, users, sessionUser, updates, investments}:Produc
           <div className="main-content">
             <h1>{product?.title}</h1>
             {isPoster && <Button variant="outlined" color="primary" onClick={() => navigate(`/products/${productId}/edit`)}>Edit Product</Button>}
-            {isPoster && <UpdateModal product={product}/> }
-            {isPoster && <DeleteModal product={product} />}
+            {isPoster && <UpdateModal product={product} update={null} /> }
+            {sessionUser &&  <FundModal sessionUser={sessionUser} product={product} investments={investments} /> }
             <br/>
             <img src={product?.image} style={{width:'350px', height:'250px'}}/>
             <h3>{`invented by ${user?.username}`}</h3>
@@ -65,7 +63,6 @@ function ProductPage({products, users, sessionUser, updates, investments}:Produc
               <Tab value="description" label="Description" />
               <Tab value="updates" label="Updates" />
               <Tab value="tiers" label="Tiers" />
-              <Tab value="fund" label="Funds" />
             </Tabs>
 
             {tab === 'updates' && 
@@ -79,7 +76,7 @@ function ProductPage({products, users, sessionUser, updates, investments}:Produc
                       <h3>{update.title}</h3>
                       <p>{update.description}</p>
                       {isPoster && 
-                        <EditUpdateModal update={update}/>
+                        <UpdateModal product={product} update={update}/>
                       }
                     </>
                     )}
@@ -123,26 +120,7 @@ function ProductPage({products, users, sessionUser, updates, investments}:Produc
               </div> 
             }
 
-
-            {tab === 'fund' && 
-              <div className="fund-product-div">
-                <span>Current Investors: {product?.investors}</span>
-                <span>Current Funds: {product?.funding}</span>
-                {sessionUser ?
-                  <>
-                  
-                    <FundModal sessionUser={sessionUser} product={product} investments={investments} />
-                  
-                  </>
-                  :
-                  <>
-                    <h3> Login to fund this product. </h3>
-                  </>
-                }
-              </div>
-            }
-            
-          
+                    
             
           </div>
 

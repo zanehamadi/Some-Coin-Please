@@ -37,7 +37,7 @@ function Home({sessionUser, products, investments}:HomeProps){
   
   let userId = sessionUser ? sessionUser.id : ''
  
-  const [userProducts, setUserProducts] = useState<any>('')
+  const userProducts = products.filter((product:any) => product.user_id === userId)
   const [userInvestments, setUserInvestments] = useState<any>('')
   const [investedProductUpdates, setInvestedProductUpdates] = useState<Array<any>>([])
   const [progress, setProgress] = useState<number>(0)
@@ -45,10 +45,6 @@ function Home({sessionUser, products, investments}:HomeProps){
 
 
   useEffect(() => {
-
-    let filteredUserProducts = products.filter((product:any) => product.user_id === userId)
-    setUserProducts(filteredUserProducts)
-
 
     let filteredUserInvestments = products.filter((product:any) => product.funders.includes(userId))
     setUserInvestments(filteredUserInvestments)
@@ -123,12 +119,20 @@ function Home({sessionUser, products, investments}:HomeProps){
         
         {tab === 'yourProducts' && 
           <div className="your-products-container">
-            {userProducts?.map((product:any) => 
-              <div className="your-specific-product" onClick={() => navigate(`/products/${product.id}`)}>
-              <h2>{product.title}</h2>
-              <img src={product.image}/>
-              </div>
-            )}
+            {userProducts.length ? 
+            <>
+              {userProducts?.map((product:any) => 
+                <div className="your-specific-product" onClick={() => navigate(`/products/${product.id}`)}>
+                <h2>{product.title}</h2>
+                <img src={product.image}/>
+                </div>
+              )}
+            </>
+            :
+            <>
+              <h2>You have not posted any products.</h2>
+            </>
+            }
           </div>
         }
 
@@ -195,7 +199,7 @@ function Home({sessionUser, products, investments}:HomeProps){
                     <Button size="small" variant="outlined" color="primary" onClick={() => navigate(`/products/${product.id}`)}>Visit Page</Button>
                     <Button size="small" variant="outlined" color="error" onClick={() => unfollowProductHandler(+product.id)}>Unfollow</Button>
                   </CardActions>
-                  <LinearProgress variant="determinate" value={progress} />
+                  <LinearProgress color="secondary" variant="determinate" value={progress} />
                 </Card>
               )}
             </>

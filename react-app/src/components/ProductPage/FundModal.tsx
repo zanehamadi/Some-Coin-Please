@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import LinearProgress from '@mui/material/LinearProgress';
 import Snackbar from '@mui/material/Snackbar';
 import { loadProducts } from 'store/products';
+import { restoreUser } from 'store/session';
 
 interface FundModalProps{
   sessionUser?: any;
@@ -31,10 +32,10 @@ function FundModal({sessionUser, product, investments}: FundModalProps){
   
   const submitInvestment = async () => {
     let submitValidators = []
-    if(sessionUser?.balance < amount) submitValidators.push('Insufficient amount in account.')
+    if(+sessionUser?.balance < +amount) submitValidators.push('Insufficient amount in account.')
     if(!amount) submitValidators.push('Please enter a valid amount.')
 
-    if(!submitInvestment.length){
+    if(!submitValidators.length){
       
       if(product.funders.includes(sessionUser.id)){
         let investment = investments.find((invest:any) => 
@@ -62,9 +63,12 @@ function FundModal({sessionUser, product, investments}: FundModalProps){
       setProgress(50)
 
       await dispatch(loadUsers())
-      setProgress(75)
+      setProgress(60)
       await dispatch(loadInvestments())
+      setProgress(70)
       await dispatch(loadProducts())
+      setProgress(80)
+      await dispatch(restoreUser())
       setProgress(100)
       setFundSucessful(true)
       setOpenSnack(true)
@@ -114,7 +118,7 @@ function FundModal({sessionUser, product, investments}: FundModalProps){
           />          
           
           <Button color={validators.length ? "error" : "primary"} onClick={submitInvestment}>Invest</Button>
-          <LinearProgress variant="determinate" value={progress} />
+          <LinearProgress color="secondary" variant="determinate" value={progress} />
         </div>
       </Modal>  
       
