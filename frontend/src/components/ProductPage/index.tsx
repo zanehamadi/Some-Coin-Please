@@ -8,7 +8,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import FundModal from './FundModal'
 import Stack from '@mui/material/Stack';
-// import './productpage.css'
+import './productpage.css'
 import CardContent from '@mui/material/CardContent';
 import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
