@@ -16,7 +16,7 @@ if (isProduction) {
       );
   });
 
-  router.use(express.static(path.resolve("../frontend/build")));
+  router.use(express.static(path.resolve("../../frontend/build")));
 
   router.get(/^(?!\/?api).*/, (req, res) => {
       res.cookie('XSRF-TOKEN', req.csrfToken());
