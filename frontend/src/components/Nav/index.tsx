@@ -19,7 +19,7 @@ import Avatar from '@mui/material/Avatar';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import { useState } from 'react';
-import './nav.css'
+// import './nav.css'
 
 interface NavProps{
   sessionUser?: CurrentUser;
