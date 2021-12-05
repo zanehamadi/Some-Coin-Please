@@ -13,7 +13,10 @@ import { useDispatch} from "react-redux";
 import { useNavigate } from 'react-router';
 import ThemeProvider from '@mui/system/ThemeProvider';
 import {theme} from '../styling-variables'
-
+import Card from '@mui/material/Card';
+import Typography from '@mui/material/Typography';
+import CardContent from '@mui/material/CardContent';
+import './productform.css'
 
 interface ProductFormProps{
   sessionUser?: any
@@ -139,7 +142,7 @@ function ProductForm({sessionUser}:ProductFormProps){
     <ThemeProvider theme={theme}>
     {sessionUser ? 
     
-    <Box component="form" autoComplete="off" >
+    <Box component="form" autoComplete="off" sx={{ p: 2, border: '1px solid grey', display:'flex', flexDirection:'column' }} >
 
       <div>
 
@@ -149,13 +152,18 @@ function ProductForm({sessionUser}:ProductFormProps){
           )}
         </ul>
 
-        <TextField required color="secondary" value={title} onChange={e => setTitle(e.target.value)} label="Product Name"/>
-        <TextField required color="secondary" multiline  minRows={5} maxRows={5} value={summary} onChange={e => setSummary(e.target.value)} label="Summary"/>
-        <TextField required color="secondary" multiline minRows={10} maxRows={10}  value={description} onChange={e => setDescription(e.target.value) } label="Description"/>
+        <TextField required style={{width:"100%", marginTop:"10px"}} color="secondary" value={title} onChange={e => setTitle(e.target.value)} label="Product Name"/>
+        <br />
+        <TextField required style={{width:"100%", marginTop:"10px"}} color="secondary" multiline  minRows={5} maxRows={5} value={summary} onChange={e => setSummary(e.target.value)} label="Summary"/>
+        <br />
+
+        <TextField required style={{width:"100%", marginTop:"10px"}} color="secondary" multiline minRows={10} maxRows={10}  value={description} onChange={e => setDescription(e.target.value) } label="Description"/>
+        <br />
+
 
         <label>
           Logo/Cover Image  
-          <Input type="file" color="secondary" onChange={updateImage}/>
+          <Input style={{marginTop:"10px"}} type="file" color="secondary" onChange={updateImage}/>
         </label>
 
 
@@ -183,14 +191,22 @@ function ProductForm({sessionUser}:ProductFormProps){
             <> </>
           }
           {rewards && rewards.map(tier => 
-            <div>
-              <h3>{`Tier ${tier.tier}` }</h3>
-              <h4>{`Price: ${tier.price}`}</h4>
-              <p>{`Description: ${tier.description}`}</p>
-            </div>
+            <Card variant="outlined" sx={{overflowX:'visible'}}>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {`Tier ${tier.tier}`}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {`Price: $${tier.price}`}
+                </Typography>
+                <Typography>
+                  {tier?.description}
+                </Typography>
+              </CardContent>
+              </Card>
             )}
 
-            <div>
+            <div className="tier-creator">
             <InputLabel htmlFor="input-with-icon-adornment">
               Price
             </InputLabel>
@@ -206,7 +222,7 @@ function ProductForm({sessionUser}:ProductFormProps){
             </InputAdornment>
             }
             />
-            <TextField required multiline  value={tierDescription} onChange={e => setTierDescription(e.target.value) } color="secondary" label="Tier Description"/> 
+            <TextField required multiline  id="tier-description" value={tierDescription} onChange={e => setTierDescription(e.target.value) } color="secondary" label="Tier Description" style={{marginTop: '10px'}} /> 
             <Button variant="outlined" color="primary" onClick={tierHandler}>Create Tier</Button>
             </div>
 

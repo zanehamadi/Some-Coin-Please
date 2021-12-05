@@ -1,0 +1,11 @@
+
+.tier-creator{
+  justify-content: space-around;
+  align-items: flex-start;
+
+}
+
+#tier-description{
+  width: 1000px;
+  height: 500px;
+}
