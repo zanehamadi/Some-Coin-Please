@@ -45,7 +45,7 @@ function LoginFormModal() {
 
   return (
     <>
-    <Button variant="outlined" onClick={() => setShowModal(true)}>Sign In</Button>
+    <Button sx={{ my: 2, color: 'white', display: 'block' }}  variant="outlined" onClick={() => setShowModal(true)}>Sign In</Button>
     <Modal 
     open={showModal}
     onClose={() => setShowModal(false)}

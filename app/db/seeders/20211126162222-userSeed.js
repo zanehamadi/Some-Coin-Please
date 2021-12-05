@@ -7,7 +7,7 @@ module.exports = {
       username: 'Demo',
       email: 'demo@email.com',
       hashedPassword: bcrypt.hashSync('password',10),
-      profile_picture: 'STRING',
+      profile_picture: 'https://i.imgur.com/Os2MTOy.png',
       balance: 5000000,
     }])
   },

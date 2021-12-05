@@ -1,0 +1,13 @@
+#user-menu-item:hover{
+  cursor:default;
+  background-color: transparent;
+}
+
+#balance-menu-item:hover{
+  cursor:default;
+  background-color: transparent;
+}
+
+#home-button:hover{
+  cursor:pointer;
+}

@@ -68,7 +68,7 @@ function SignupFormModal() {
 
   return (
     <>
-      <Button variant="outlined" onClick={() => setShowModal(true)}>Sign Up</Button>
+      <Button sx={{ my: 2, color: 'white', display: 'block' }}  variant="outlined" onClick={() => setShowModal(true)}>Sign Up</Button>
         <Modal 
         onClose={() => setShowModal(false)}
         open={showModal}

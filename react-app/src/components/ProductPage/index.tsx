@@ -7,7 +7,11 @@ import {theme} from '../styling-variables'
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import FundModal from './FundModal'
-
+import Stack from '@mui/material/Stack';
+import './productpage.css'
+import CardContent from '@mui/material/CardContent';
+import Card from '@mui/material/Card';
+import Typography from '@mui/material/Typography';
 interface ProductPageProps{
   products?: any;
   users?: any;
@@ -46,9 +50,11 @@ function ProductPage({products, users, sessionUser, updates, investments}:Produc
         <>
           <div className="main-content">
             <h1>{product?.title}</h1>
-            {isPoster && <Button variant="outlined" color="primary" onClick={() => navigate(`/products/${productId}/edit`)}>Edit Product</Button>}
-            {isPoster && <UpdateModal product={product} update={null} /> }
-            {sessionUser &&  <FundModal sessionUser={sessionUser} product={product} investments={investments} /> }
+            <Stack direction="row" spacing={3}>
+              {isPoster && <Button variant="outlined" color="primary" onClick={() => navigate(`/products/${productId}/edit`)}>Edit Product</Button>}
+              {isPoster && <UpdateModal product={product} update={null} /> }
+              {sessionUser &&  <FundModal sessionUser={sessionUser} product={product} investments={investments} /> }
+            </Stack>
             <br/>
             <img src={product?.image} style={{width:'350px', height:'250px'}}/>
             <h3>{`invented by ${user?.username}`}</h3>
@@ -67,18 +73,18 @@ function ProductPage({products, users, sessionUser, updates, investments}:Produc
 
             {tab === 'updates' && 
               <div className="product-update-tab">
-                <h2>Updates</h2>
+                <h2 style={{color:"#455a64"}}>Updates</h2>
                 {
                   postUpdates ?
                   <>
                     {postUpdates.map((update:any) => 
-                    <>
+                    <div className="update-container">
                       <h3>{update.title}</h3>
                       <p>{update.description}</p>
                       {isPoster && 
                         <UpdateModal product={product} update={update}/>
                       }
-                    </>
+                    </div>
                     )}
                   </>
                   :
@@ -91,7 +97,7 @@ function ProductPage({products, users, sessionUser, updates, investments}:Produc
 
             {tab === 'description' &&             
               <div>
-                <h2>About the product</h2>
+                <h2 style={{color:"#455a64"}}>About the product</h2>
                 <h3>Summary</h3>
                 <p>{product?.summary}</p>
                 <h3>Description:</h3>
@@ -102,16 +108,23 @@ function ProductPage({products, users, sessionUser, updates, investments}:Produc
             {tab === 'tiers' &&
               <div className="rewards-container">
                 {JSON.parse(product.rewards).length ?
-                  <>
+                <>
                     {JSON.parse(product.rewards).map((reward:any) =>   
-                      <div className="tier-container">
-                        <h3>Tier: {reward.tier}</h3>
-                        <h4>${reward.price}</h4>
-                        <h3>What you get:</h3>
-                        <p>{reward.description}</p>
-                      </div>
+                      <Card variant="outlined">
+                        <CardContent>
+                          <Typography gutterBottom variant="h5" component="div">
+                              {`Tier: ${reward.tier}`}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                              {`Price: $${reward.price}`}
+                          </Typography>
+                          <Typography>
+                              {reward?.description}
+                          </Typography>
+                      </CardContent>
+                     </Card>
                     )}
-                  </>
+                </>
                 :
                 <h2>
                   There are no rewards for funding this product.

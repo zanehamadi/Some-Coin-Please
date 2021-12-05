@@ -75,7 +75,7 @@ function CoinPurchaseModal({sessionUser}:any) {
 
   return (
     <>
-      <Button variant="outlined" onClick={() => setShowModal(true)}>Purchase Coin</Button>
+      <Button variant="outlined" sx={{ my: 2, color: 'white', display: 'block' }} onClick={() => setShowModal(true)}>Purchase Coin</Button>
       <Modal
           open={showModal}
           onClose={() => setShowModal(false)}
