@@ -80,7 +80,7 @@ function CoinPurchaseModal({sessionUser}:any) {
           open={showModal}
           onClose={() => setShowModal(false)}
       >
-          <Box className="Purchase Modal" sx={style} >
+          <Box className="purchase-modal" sx={style} >
             {validators.length ?
             
             <ul>
