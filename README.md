@@ -57,7 +57,7 @@ TypeScript Express/Sequelize Back-End
 
 Using dynamic rendering, I utilized the same modal for both creating an update and editing an update, depending on the props passed in.
 
-## Architecture Pattern: MVC
+## Architecture Pattern: MODEL-VIEW-CONTROLLER
 
 MVC seemed like the perfect pattern to follow, as it flows extremely well and is inline with React/Redux's data flow. Consistently following core MVC principles also allowed for a clean state and DRY code. An easy way for me to understand these principles was to compare them with things I am familiar with,
 
@@ -71,8 +71,9 @@ Controller = Reducers/Thunk
 
 ## REST API routes
 
-### Stripe Handling
-Stripe was definitely a lot easier to handle than expected, simply using a `POST` route to their build in method, users are able to make purchases through the website.
+
+### Third-Party APIs
+Utilized `POST` for both Stripe and AWS.
 
 ### Product Handling
 For products, `GET`, `POST`, and `PUT` were all utilized for getting all products, creating a product, and updating a product.
@@ -87,6 +88,33 @@ Investments used all 4 CRUD functionalities -  `GET`, `POST`, `PUT`, and `DELETE
 ### User/Session
 
 For users, I used all 4 CRUD functionalities -  `GET`, `POST`, `PUT`, and `DELETE`. `GET` to load all users and restore a user, `POST` to create and login users, `PUT` to update a user(primarily used to update a user's balance after depositing/withdrawing, and `DELETE` to delete a user.
+
+## User Interactions
+
+A user can:
+- Create an account, and login/logout of said account
+- Purchase coin through Stripe
+- Invest in a product
+- Unfollow a product
+- Post a product
+- Edit a product
+- Post an update
+- Edit an update
+- Search for a product
+
+
+## MUI Components Used:
+-  Button
+-  Modal
+-  Box
+-  Input
+-  InputAdornment
+-  AttachMoneyIcon
+-  Snackbar
+-  Tab
+-  Tabs
+-  Card(CardActions, CardContent, CardMedia)
+
 
 ## Challenges
 
