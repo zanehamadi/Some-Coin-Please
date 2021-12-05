@@ -19,6 +19,7 @@ import { loadUsers } from 'store/users';
 import { loadProducts } from 'store/products';
 import LinearProgress from '@mui/material/LinearProgress';
 import Snackbar from '@mui/material/Snackbar';
+import Search from '../Search';
 
 
 interface HomeProps{
@@ -114,6 +115,7 @@ function Home({sessionUser, products, investments}:HomeProps){
               <Tab value="yourProducts" label="Your Products" />
               <Tab value="updates" label="Updates" />
               <Tab value="followedProducts" label="Followed/Funding Products" />
+              <Tab value="search" label="Find a product" />
             </Tabs>
         </Box>
         
@@ -122,7 +124,7 @@ function Home({sessionUser, products, investments}:HomeProps){
             {userProducts.length ? 
             <>
               {userProducts?.map((product:any) => 
-                <Card sx={{ maxWidth: 500}}>
+                <Card sx={{ maxWidth: 500}} variant="outlined" >
                   <CardMedia
                   component="img"
                   height="300"
@@ -164,7 +166,7 @@ function Home({sessionUser, products, investments}:HomeProps){
                       return(
                         <Card variant="outlined" sx={{ maxWidth: 800 }}>
                           <CardContent>
-                            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                            <Typography sx={{ fontSize: 14 }} color="secondary" style={{fontWeight:"600"}} gutterBottom>
                               {specificProduct.title}
                             </Typography>
                             <Typography variant="h5" component="div">
@@ -227,6 +229,8 @@ function Home({sessionUser, products, investments}:HomeProps){
               )}
             </>
 
+
+
             :
 
             <>
@@ -235,7 +239,15 @@ function Home({sessionUser, products, investments}:HomeProps){
           
           
             }
+
           </div>
+        }
+
+        
+        {tab === 'search' &&
+          
+          <Search products={products} />
+
         }
       </div>
       :

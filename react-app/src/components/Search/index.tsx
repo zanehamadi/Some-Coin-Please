@@ -3,12 +3,17 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Input from '@mui/material/Input';
 import FormControl from '@mui/material/FormControl';
 import { useEffect, useState } from 'react';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import IconButton from '@mui/material/IconButton';
-import { Checkbox, FormControlLabel } from '@mui/material';
+
+import { Button, Checkbox, FormControlLabel, Typography } from '@mui/material';
 import { useNavigate } from 'react-router';
 import ThemeProvider from '@mui/system/ThemeProvider';
 import {theme} from '../styling-variables'
+
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+
 
 interface SearchProps{
 
@@ -18,7 +23,6 @@ function Search({products}: SearchProps){
   
   const [userInput, setUserInput] = useState<string>('')
   const [productResults, setProductResults] = useState<Array<any>>([])
-  const [showFilter, setShowFilter] = useState<boolean>(false)
   const [tags, setTags] = useState<Set<any>>(new Set())
   const [counter, setCounter] = useState<number>(0)
   const navigate = useNavigate()
@@ -27,14 +31,6 @@ function Search({products}: SearchProps){
 
 
 
-
-  const filterSwitch = () => {
-    if(showFilter){
-      setShowFilter(false)
-      setCounter(counter + 1)
-      setTags(new Set())
-    }else setShowFilter(true)
-  }
 
   useEffect(() => {
     let filteredProducts = products
@@ -84,7 +80,7 @@ function Search({products}: SearchProps){
 
   return(
     <ThemeProvider theme={theme}>
-      <div className="search-container">
+      <div className="search-container" style={{marginTop:'10px'}}>
 
         <FormControl>
           <Input 
@@ -97,12 +93,9 @@ function Search({products}: SearchProps){
           value={userInput}
           onChange={e => setUserInput(e.target.value)}
           color="secondary"
+          style={{width:"30vw"}}
           />
         </FormControl>
-          <IconButton onClick={filterSwitch}>
-            <FilterAltIcon color="primary" />
-          </IconButton>
-        {showFilter && 
           <div className="search-filters">
               {tagNames.map(tag => 
                 <FormControlLabel
@@ -110,18 +103,32 @@ function Search({products}: SearchProps){
                   control={<Checkbox color="secondary" onChange={e => tagHandler(e)} />}
                   value={tag}
                 />
-            )}
+              )}
           </div>
-        }
 
         {(productResults && (userInput.length || tags.size)) ?
 
             <div className="product-results-container">
               {productResults.map(product => 
-                <div className="product-result" onClick={() => navigate(`/products/${product.id}`)}>
-                  <img style={{width:'50px'}} src={product.image} />
-                  <span>{product.title}</span>
-                </div>
+              <Card sx={{ maxWidth: 345 }}>
+                <CardMedia
+                component="img"
+                height="140"
+                image={product.image}
+                alt={`${product?.title} logo`}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {product?.title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {product?.sumarry}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button size="small" variant="outlined" color="primary" onClick={() => navigate(`/products/${product.id}`)}>Visit Page</Button>
+                </CardActions>
+              </Card>
               )}
             </div>
             :

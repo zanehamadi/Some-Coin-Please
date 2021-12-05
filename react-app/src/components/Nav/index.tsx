@@ -33,16 +33,15 @@ function Nav({sessionUser, products}:NavProps){
 
 
   return(
-    <>
+    <div className="nav-container">
     <ThemeProvider theme={theme}>
     {
       sessionUser ?
 
 
-        <Stack direction="row" spacing={3}>
+        <Stack direction="row" spacing={9}>
               <Button variant="contained" color="primary" onClick={() => dispatch(logoutUser())}  >Logout</Button>
               <Button variant="outlined"  color="primary" onClick={() => navigate('/')}>Home</Button>
-              <Search products={products}/>
               <Button variant="outlined" color="primary" onClick={() => navigate('/postproduct')}>Post a Product</Button>
               <CoinPurchaseModal sessionUser={sessionUser}/>
         </Stack>
@@ -53,12 +52,11 @@ function Nav({sessionUser, products}:NavProps){
             <SignupFormModal/>
             <Button variant="contained" color="primary" onClick={e => demoFunction(e)}>Demo</Button>
             <Button variant="outlined"  color="primary" onClick={() => navigate('/')}>Home</Button>
-            <Search products={products}/>
           </Stack>
 
 }
     </ThemeProvider>
-    </>
+    </div>
   )
 }
 
