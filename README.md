@@ -10,15 +10,15 @@ SCP is a crowdfunding website that allows users to create an account, add money 
 2. Open a terminal and change directories to the "backend" folder
 3. `npm install` install all packages
 4. Create a `.env` file in the backend folder that has: 
-  - PORT={backend_port}
-  - DB_USERNAME={database_username}
-  - DB_PASSWORD={database_user_pass}
-  - DB_DATABASE={name_of_database}
-  - JWT_SECRET={JSON_web_token_secret_key}
-  - JWT_EXPIRES_IT={JWT_expiration_time}
-  - AWS_ACCESS_KEY_ID={aws_access_id}
-  - AWS_SECRET_ACCESS_KEY={aws_secret_key}
-  - STRIPE_KEY={stripe_test_key}(found here https://stripe.com/docs/api/charges)
+    - PORT={backend_port}
+    - DB_USERNAME={database_username}
+    - DB_PASSWORD={database_user_pass}
+    - DB_DATABASE={name_of_database}
+    - JWT_SECRET={JSON_web_token_secret_key}
+    - JWT_EXPIRES_IT={JWT_expiration_time}
+    - AWS_ACCESS_KEY_ID={aws_access_id}
+    - AWS_SECRET_ACCESS_KEY={aws_secret_key}
+    - STRIPE_KEY={stripe_test_key}(found here https://stripe.com/docs/api/charges)
 5. Setup your database following credentials on PSQL
 6. Migrate and seed the database(run `npx sequelize-cli db:migrate` AND `npx sequelize-cli db:seed:all` in terminal)
 7. Open another terminals, change directory to the frontend folder.
