@@ -59,8 +59,11 @@ Using dynamic rendering, I utilized the same modal for both creating an update a
 
 MVC seemed like the perfect pattern to follow, as it flows extremely well and is inline with React/Redux's data flow. Consistently following core MVC principles also allowed for a clean state and DRY code. An easy way for me to understand these principles was to compare them with things I am familiar with,
 
+
 Model = Redux Store
+
 View = React
+
 Controller = Reducers/Thunk
 
 
