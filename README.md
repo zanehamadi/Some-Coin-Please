@@ -92,11 +92,11 @@ For users, I used all 4 CRUD functionalities -  `GET`, `POST`, `PUT`, and `DELET
 
 Since this was the first time I used TypeScript, it definitely was a challenge to create a "purely" TypeScript based project. While React/Redux work phenomenally with TypeScript, Express/Sequelize was definitely a hurdle that took deep delving into research and documentation.
 
-Deployment was definitely the most stressful part of the project, as I have little to work with when it came to error codes, spending a good amount of the tail end of my projects heavily reading into error codes and testing different methods. 
+Deployment was definitely the most stressful part of the project, as I had little to work with when it came to error codes, spending a good amount of the tail end of my projects heavily researching and testing different methods. 
 
 ## Results
 
-This project was an amazing learning opportunity for me, that will absolutely impact me as a developer. I am now going to utilize TypeScript on most projects, as it is the perfect net to catch any lingering errors that I would have trouble noticing without it. This was the first time I used MUI on a full-stack application, and will also be adding that to my go-to list, as the styling components are stunning. 
+This project was an amazing learning opportunity for me that will absolutely impact me as a developer. I am now going to utilize TypeScript on most projects, as it is the perfect net to catch any lingering errors that I would have had trouble noticing. This was also the first time I used MUI on a full-stack application, and will also be adding that to my go-to list, as the styling components are stunning. 
 
 
 
