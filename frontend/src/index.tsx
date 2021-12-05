@@ -4,7 +4,6 @@ import './index.css';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 import configureStore from './store';
 import { restoreCSRF , csrfFetch } from 'store/csrf';
 import * as sessionActions from './store/session'
@@ -41,6 +40,3 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-
-reportWebVitals();
