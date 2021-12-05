@@ -43,7 +43,7 @@ function CoinPurchaseModal({sessionUser}:any) {
   };
 
   const handlePurchase = async () => {
-    let id = +sessionUser.id
+    let id = +sessionUser?.id
     let purchaseValidator = []
     if(amount <= 0) purchaseValidator.push('Please enter a valid amount.')
     if(amount >= 1000000) purchaseValidator.push('Amount can be no greator than $999,999.99')
@@ -53,7 +53,7 @@ function CoinPurchaseModal({sessionUser}:any) {
     //@ts-ignore
     if(res === 'GOOD'){
       await dispatch(editUser({
-        id: sessionUser.id,
+        id,
         username: sessionUser.username,
         balance: (+sessionUser.balance + +amount),
         profile_picture: sessionUser.profile_picture

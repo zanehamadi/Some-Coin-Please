@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux'
 import Home from './components/Home'
 import * as sessionActions from "./store/session";
-import { CurrentUser, State, StateInterface } from 'interfaces';
+import {State, StateInterface } from 'interfaces';
 import Nav from "components/Nav";
 import ProductForm from "components/ProductForm";
 import ProductPage from "components/ProductPage";
@@ -20,30 +20,30 @@ function App() {
   
   const dispatch:any = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
-  const sessionUser:CurrentUser = useSelector((state: State) => state.session.user);
   const {updateTrigger, setUpdateTrigger}:any = useUpdateTrigger()
-
+  
   useEffect(() => {
     dispatch(sessionActions.restoreUser())
     .then(dispatch(loadProducts()))
     .then(dispatch(loadUsers()))
     .then(dispatch(loadUpdates()))
+    .then(dispatch(loadInvestments()))
+    .then(() => setIsLoaded(true))
     .then(setUpdateTrigger(!updateTrigger))
-    dispatch(loadInvestments()).then(() => setIsLoaded(true));
   }, [dispatch]);
-
-
+  
+  
   const productsSlice = useSelector((state:StateInterface) => state.products)
   const usersSlice = useSelector((state:StateInterface) => state.users)
   const investmentSlice = useSelector((state:StateInterface) => state.investments)
   const updatesSlice = useSelector((state:StateInterface) => state.updates)
-  
+
   const products = Object.values(productsSlice)
   const users = Object.values(usersSlice)
   const updates = Object.values(updatesSlice)
   const investments = Object.values(investmentSlice)
-
-
+  
+  const sessionUser:any = useSelector((state: State) => state.session.user);
 
   return ( isLoaded ?
     <>
