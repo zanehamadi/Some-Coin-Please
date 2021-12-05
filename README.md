@@ -1,6 +1,6 @@
 # Some Coin, Please
 
-!(Visit Some Coin, Please!)[https://somecoinplease.herokuapp.com/]
+[Visit Some Coin, Please!](https://somecoinplease.herokuapp.com/)
 
 ## What is Some Coin, Please?
 
