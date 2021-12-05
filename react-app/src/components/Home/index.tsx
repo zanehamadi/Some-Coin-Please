@@ -19,6 +19,7 @@ import { loadUsers } from 'store/users';
 import { loadProducts } from 'store/products';
 import LinearProgress from '@mui/material/LinearProgress';
 import Snackbar from '@mui/material/Snackbar';
+import Search from '../Search';
 
 
 interface HomeProps{
@@ -37,7 +38,7 @@ function Home({sessionUser, products, investments}:HomeProps){
   
   let userId = sessionUser ? sessionUser.id : ''
  
-  const [userProducts, setUserProducts] = useState<any>('')
+  const userProducts = products.filter((product:any) => product.user_id === userId)
   const [userInvestments, setUserInvestments] = useState<any>('')
   const [investedProductUpdates, setInvestedProductUpdates] = useState<Array<any>>([])
   const [progress, setProgress] = useState<number>(0)
@@ -45,10 +46,6 @@ function Home({sessionUser, products, investments}:HomeProps){
 
 
   useEffect(() => {
-
-    let filteredUserProducts = products.filter((product:any) => product.user_id === userId)
-    setUserProducts(filteredUserProducts)
-
 
     let filteredUserInvestments = products.filter((product:any) => product.funders.includes(userId))
     setUserInvestments(filteredUserInvestments)
@@ -118,17 +115,41 @@ function Home({sessionUser, products, investments}:HomeProps){
               <Tab value="yourProducts" label="Your Products" />
               <Tab value="updates" label="Updates" />
               <Tab value="followedProducts" label="Followed/Funding Products" />
+              <Tab value="search" label="Find a product" />
             </Tabs>
         </Box>
         
         {tab === 'yourProducts' && 
           <div className="your-products-container">
-            {userProducts?.map((product:any) => 
-              <div className="your-specific-product" onClick={() => navigate(`/products/${product.id}`)}>
-              <h2>{product.title}</h2>
-              <img src={product.image}/>
-              </div>
-            )}
+            {userProducts.length ? 
+            <>
+              {userProducts?.map((product:any) => 
+                <Card sx={{ maxWidth: 500}} variant="outlined" >
+                  <CardMedia
+                  component="img"
+                  height="300"
+                  image={product.image}
+                  alt={`${product?.title} logo`}
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h3" component="div">
+                        {product?.title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        {product?.sumarry}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button size="large" variant="outlined" color="primary" onClick={() => navigate(`/products/${product.id}`)}>Visit Page</Button>
+                  </CardActions>
+                </Card>
+              )}
+            </>
+            :
+            <>
+              <h2>You have not posted any products.</h2>
+            </>
+            }
           </div>
         }
 
@@ -140,15 +161,23 @@ function Home({sessionUser, products, investments}:HomeProps){
                 
                   <>
                     {investedProductUpdates?.map((update:any) => {
-
+                      
                       let specificProduct = products.find((product:any) => product.id === update.product_id)
                       return(
-                        <>
-                          <h2>{specificProduct.title}</h2>
-                          <h3>{update.title}</h3>
-                          <p>{update.description}</p>
+                        <Card variant="outlined" sx={{ maxWidth: 800 }}>
+                          <CardContent>
+                            <Typography sx={{ fontSize: 14 }} color="secondary" style={{fontWeight:"600"}} gutterBottom>
+                              {specificProduct.title}
+                            </Typography>
+                            <Typography variant="h5" component="div">
+                              {update.title}
+                            </Typography>
+                            <Typography variant="body2">
+                              {update.description}
+                            </Typography>
+                          </CardContent>
                           
-                        </>
+                        </Card>
                       )
                     }
 
@@ -195,10 +224,12 @@ function Home({sessionUser, products, investments}:HomeProps){
                     <Button size="small" variant="outlined" color="primary" onClick={() => navigate(`/products/${product.id}`)}>Visit Page</Button>
                     <Button size="small" variant="outlined" color="error" onClick={() => unfollowProductHandler(+product.id)}>Unfollow</Button>
                   </CardActions>
-                  <LinearProgress variant="determinate" value={progress} />
+                  <LinearProgress color="secondary" variant="determinate" value={progress} />
                 </Card>
               )}
             </>
+
+
 
             :
 
@@ -208,7 +239,15 @@ function Home({sessionUser, products, investments}:HomeProps){
           
           
             }
+
           </div>
+        }
+
+        
+        {tab === 'search' &&
+          
+          <Search products={products} />
+
         }
       </div>
       :

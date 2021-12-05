@@ -41,14 +41,14 @@ function EditForm({products}: EditFormProps){
   
   interface RewardUpdateParams{
     reward: any;
-    description?: string;
-    price?: number
+    description?: string ;
+    price?: number ;
   }
   const rewardUpdateFunc = ({reward, description, price}:RewardUpdateParams) => {
     let rewardClone = rewards.slice()
     let rewardIndex = rewards.indexOf(reward)
-    if(price) rewardClone[rewardIndex]['price'] = price
-    if(description) rewardClone[rewardIndex]['description'] = description
+    rewardClone[rewardIndex]['price'] = price
+    rewardClone[rewardIndex]['description'] = description
     setRewards(rewardClone)
   }
   
@@ -101,9 +101,8 @@ function EditForm({products}: EditFormProps){
       let tagsArr = Array.from(tags)
       let tagsString = tagsArr.join(',')
       
-      console.log('REWARDS', rewards)
 
-      const newProductId = dispatch(updateProduct({
+      dispatch(updateProduct({
         id: product.id, 
         title,
         description,
@@ -117,7 +116,7 @@ function EditForm({products}: EditFormProps){
 
       dispatch(loadProducts())
       clearFunc()
-      navigate(`/products/${newProductId}`)
+      navigate(`/products/${product.id}`)
     }
 
   }
@@ -127,9 +126,9 @@ function EditForm({products}: EditFormProps){
       <div className="edit-product-form">
         {validators && 
           <ul>
-            {validators.map(validator => {
+            {validators.map(validator =>
               <li>{validator}</li>
-            })}
+            )}
           </ul>
         }
         <h1>Edit Form</h1>
@@ -157,13 +156,13 @@ function EditForm({products}: EditFormProps){
           {rewards.map((reward:any) => 
             <div>
               <h3>Tier {reward.tier}</h3>
-              <TextField label="Description" variant="outlined" value={reward.description} onChange={e => rewardUpdateFunc({reward, description:e.target.value})}/>
+              <TextField label="Description" variant="outlined" value={reward.description} onChange={e => rewardUpdateFunc({reward, description:e.target.value, price: +reward.price})} />
               <InputLabel htmlFor="input-with-icon-adornment">
                 Price
               </InputLabel>
               <Input
               value={reward.price}
-              onChange={e => rewardUpdateFunc({reward, price:+e.target.value})}
+              onChange={e => rewardUpdateFunc({reward, description: reward.description, price:+e.target.value})}
               type="number"
               startAdornment={
                 <InputAdornment position="start">
@@ -175,7 +174,7 @@ function EditForm({products}: EditFormProps){
             </div>
           )}
 
-          <Button onClick={productUpdateHandler}>Update Product</Button>
+          <Button variant="outlined" color="primary" onClick={productUpdateHandler}>Update Product</Button>
       </div>
     </ThemeProvider>
   )

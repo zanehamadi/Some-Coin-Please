@@ -1,13 +1,15 @@
 import { useState } from 'react';
-import { Modal } from '../../context/Modal';
+import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import {editUser, purchaseCoin} from '../../store/users'
+import {editUser, loadUsers, purchaseCoin} from '../../store/users'
 import { useDispatch } from 'react-redux';
 import Snackbar from '@mui/material/Snackbar';
 import LinearProgress from '@mui/material/LinearProgress';
+import { restoreUser } from 'store/session';
+import Box from '@mui/system/Box';
 
 
 
@@ -24,10 +26,21 @@ function CoinPurchaseModal({sessionUser}:any) {
 
   const handleClose = () => {
     setOpenSnack(false)
-    setAmount(0)
+    setAmount('')
     setProgress(0)
   }
 
+  const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
 
   const handlePurchase = async () => {
     let id = +sessionUser.id
@@ -45,6 +58,9 @@ function CoinPurchaseModal({sessionUser}:any) {
         balance: (+sessionUser.balance + +amount),
         profile_picture: sessionUser.profile_picture
       }))
+      setProgress(75)
+      await dispatch(loadUsers())
+      await dispatch(restoreUser())
       setProgress(100)
       setShowModal(false)
       setAmount(0)
@@ -59,10 +75,12 @@ function CoinPurchaseModal({sessionUser}:any) {
 
   return (
     <>
-      <Button variant="outlined" onClick={() => setShowModal(true)}>Purchase Coin</Button>
-      {showModal && (
-        <Modal onClose={() => setShowModal(false)}>
-          <div className="Purchase Modal">
+      <Button variant="outlined" sx={{ my: 2, color: 'white', display: 'block' }} onClick={() => setShowModal(true)}>Purchase Coin</Button>
+      <Modal
+          open={showModal}
+          onClose={() => setShowModal(false)}
+      >
+          <Box className="Purchase Modal" sx={style} >
             {validators.length ?
             
             <ul>
@@ -86,11 +104,10 @@ function CoinPurchaseModal({sessionUser}:any) {
               }
               />
             <Button onClick={handlePurchase}>Purchase</Button>
-            <LinearProgress variant="determinate" value={progress} />
+            <LinearProgress variant="determinate" value={progress} color="secondary" />
 
-          </div>
-        </Modal>
-      )}
+          </Box>
+      </Modal>
 
       <Snackbar
       open={openSnack}

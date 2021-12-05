@@ -12,6 +12,7 @@ import {loadUsers} from "./store/users"
 import {loadUpdates} from "./store/updates"
 import { loadInvestments } from "store/investments";
 import EditForm from './components/ProductPage/EditForm'
+import { useUpdateTrigger } from "context/updateTrigger";
 
 
 
@@ -20,13 +21,14 @@ function App() {
   const dispatch:any = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   const sessionUser:CurrentUser = useSelector((state: State) => state.session.user);
-  
+  const {updateTrigger, setUpdateTrigger}:any = useUpdateTrigger()
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser())
-    dispatch(loadProducts())
-    dispatch(loadUsers())
-    dispatch(loadUpdates())
+    .then(dispatch(loadProducts()))
+    .then(dispatch(loadUsers()))
+    .then(dispatch(loadUpdates()))
+    .then(setUpdateTrigger(!updateTrigger))
     dispatch(loadInvestments()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
@@ -45,7 +47,7 @@ function App() {
 
   return ( isLoaded ?
     <>
-      <Nav sessionUser={sessionUser} products={products} />
+      <Nav sessionUser={sessionUser} />
         <Routes>
           <Route path='/'  element={<Home sessionUser={sessionUser} products={products} investments={investments} />} />
           <Route path='/postproduct' element={<ProductForm sessionUser={sessionUser}/>} />
