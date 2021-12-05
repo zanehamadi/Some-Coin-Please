@@ -11,7 +11,7 @@
     "sequelize": "npm run --prefix backend sequelize",
     "sequelize-cli": "npm run --prefix backend sequelize-cli",
     "start": "npm start --prefix backend"
-},
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/zanehamadi/Some-Coin-Please.git"
@@ -25,5 +25,8 @@
   "homepage": "https://github.com/zanehamadi/Some-Coin-Please#readme",
   "engines": {
     "node": "12.22.1"
+  },
+  "dependencies": {
+    "redux-logger": "^3.0.6"
   }
 }
