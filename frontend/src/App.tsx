@@ -57,8 +57,6 @@ function App() {
     </>
     :
     <>
-      <Nav sessionUser={sessionUser} />
-      <img src="https://c.tenor.com/28DFFVtvNqYAAAAC/loading.gif" alt="loading screen"/>
     </>
   );
 }
