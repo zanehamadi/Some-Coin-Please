@@ -48,6 +48,11 @@ function Nav({sessionUser}:NavProps){
     setUserMenu(null);
   };
 
+  const logoutHandler = async () => {
+    await dispatch(logoutUser())
+    navigate('/')
+  }
+
   return(
     <ThemeProvider theme={theme}>
     <AppBar position="static">
@@ -64,7 +69,7 @@ function Nav({sessionUser}:NavProps){
           {sessionUser ?
           
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <Button variant="outlined" sx={{ my: 2, color: 'white', display: 'block' }} color="primary" onClick={() => dispatch(logoutUser())}  >Logout</Button>
+            <Button variant="outlined" sx={{ my: 2, color: 'white', display: 'block' }} color="primary" onClick={logoutHandler}  >Logout</Button>
             <Button variant="outlined" sx={{ my: 2, color: 'white', display: 'block' }} color="primary" onClick={() => navigate('/postproduct')}>Post a Product</Button>
             <CoinPurchaseModal sessionUser={sessionUser} />
           </Box>

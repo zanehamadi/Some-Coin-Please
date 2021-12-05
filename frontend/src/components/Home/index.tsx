@@ -253,14 +253,9 @@ function Home({sessionUser, products, investments}:HomeProps){
       :
       <div className="splash-container">
 
-        <h1>
-          Some Coin, Please.
-        </h1>
-        <h2>
-          HOME OF INNOVATION
-        </h2>
+        <img src="https://i.imgur.com/fO3RWzx.png" />
         <p>
-          Creating a product is expensive and requires funding, we get that. Thats why on SCP, crowdfunding is king. Explore and find products you find interesting, and follow em'. If you find them interesting enough, you can purchase some coin and send it to the creators of the product to help let them capitalize off their dream. It doesn't stop there, though. Have something you have always wanted to create? Make a post, show your work, and see if other people share a similar passion as you and want to help fund your creativity. 
+          Creating a product is expensive and requires funding, we get that. Thats why on SCP, crowdfunding is king. Explore and find products you find interestin. If you find them interesting enough, you can purchase some coin and send it to the creators of the product to help let them capitalize off their dream. It doesn't stop there, though. Have something you have always wanted to create? Make a post, show your work, and see if other people share a similar passion as you and want to help fund your creativity. 
         </p>
 
       </div>

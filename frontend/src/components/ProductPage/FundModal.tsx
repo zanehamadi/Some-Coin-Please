@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button';
 import InputAdornment from '@mui/material/InputAdornment';
-import { Modal } from 'context/Modal';
+import Modal from '@mui/material/Modal';
 import { useState } from 'react';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import Input from '@mui/material/Input';
@@ -11,6 +11,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Snackbar from '@mui/material/Snackbar';
 import { loadProducts } from 'store/products';
 import { restoreUser } from 'store/session';
+import Box from '@mui/material/Box';
 
 interface FundModalProps{
   sessionUser?: any;
@@ -86,43 +87,59 @@ function FundModal({sessionUser, product, investments}: FundModalProps){
     setAmount('')
   }
 
+  const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 500,
+    height: 300,
+    bgcolor: 'white',
+    border: '2px solid #000',
+    boxShadow: 24,
+  };
+
   return(
     <>
-    <Button variant="outlined" onClick={() => setShowModal(true)}>Fund this product.</Button>
-    {showModal &&
-      
-      <Modal onClose={() => setShowModal(false)}>
-        <div className="update-modal" style={{margin: '10em'}}>
-          {validators.length ? 
-          <>
-          <ul>
-            {validators.map(validators => 
-              <li>{validators}</li>
-            )}
-          </ul>
-          </>
-          :
-          <>
-          </>
-          }
+    <Button variant="outlined" onClick={() => setShowModal(true)}>Fund this product.</Button> 
+      <Modal 
+      open={showModal}
+      onClose={() => setShowModal(false)}
 
-          <Input
-          value={amount}
-          onChange={e => setAmount(e.target.value)}
-          type="number"
-          startAdornment={
-            <InputAdornment position="start">
-              <AttachMoneyIcon color="secondary"/>
-            </InputAdornment>
-          }
-          />          
+      >
+        <Box className="fund-product-modal" sx={style}>
+          <div className="update-modal" style={{margin: '10em'}}>
+            {validators.length ? 
+            <>
+            <ul>
+              {validators.map(validators => 
+                <li>{validators}</li>
+              )}
+            </ul>
+            </>
+            :
+            <>
+            </>
+            }
           
-          <Button color={validators.length ? "error" : "primary"} onClick={submitInvestment}>Invest</Button>
-          <LinearProgress color="secondary" variant="determinate" value={progress} />
-        </div>
+            <Input
+            value={amount}
+            onChange={e => setAmount(e.target.value)}
+            type="number"
+            startAdornment={
+              <InputAdornment position="start">
+                <AttachMoneyIcon color="secondary"/>
+              </InputAdornment>
+            }
+            style={{width:'100px'}}
+            />          
+            
+            <Button color={validators.length ? "error" : "primary"} onClick={submitInvestment}>Invest</Button>
+            <LinearProgress color="secondary" variant="determinate" value={progress} />
+          </div>
+        </Box>
       </Modal>  
-      
-    }
+
     {fundSucessful &&
     <Snackbar
     open={openSnack}
