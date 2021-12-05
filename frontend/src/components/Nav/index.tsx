@@ -66,7 +66,7 @@ function Nav({sessionUser}:NavProps){
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             <Button variant="outlined" sx={{ my: 2, color: 'white', display: 'block' }} color="primary" onClick={() => dispatch(logoutUser())}  >Logout</Button>
             <Button variant="outlined" sx={{ my: 2, color: 'white', display: 'block' }} color="primary" onClick={() => navigate('/postproduct')}>Post a Product</Button>
-            <CoinPurchaseModal/>
+            <CoinPurchaseModal sessionUser={sessionUser} />
           </Box>
 
           :
