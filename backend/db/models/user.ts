@@ -99,7 +99,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
       let {username, email, password, profile_picture} = userData
       const hashedPassword = bcrypt.hashSync(password)
       if(!profile_picture){
-        let profile_picture = 'https://i.imgur.com/Os2MTOy.png'
+        profile_picture = 'https://i.imgur.com/Os2MTOy.png'
       }
       const user: any = await User.create({
         username,
