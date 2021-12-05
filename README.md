@@ -75,19 +75,36 @@ Controller = Reducers/Thunk
 ### Third-Party APIs
 Utilized `POST` for both Stripe and AWS.
 
+![stripe-example](https://i.imgur.com/jHNOVqF.png)
+![stripe-example2](https://i.imgur.com/7sdXNWA.png)
+
+
 ### Product Handling
 For products, `GET`, `POST`, and `PUT` were all utilized for getting all products, creating a product, and updating a product.
 
+![product-example](https://i.imgur.com/4NkXebf.png)
+![product-example](https://i.imgur.com/msdNUWB.png)
+
 ### Update Handling
 Updates used `GET`, `POST`, AND `PUT`. Since updates could not exist without a product, updates were primarly housed in the product state, however, the `GET` route was utilized to update the slice of state in case any changes were made. `POST` and `PUT` were utilized to create and update.
+
+![update-example](https://i.imgur.com/kSyaLxp.png)
+![update-example](https://i.imgur.com/lEtADVm.png)
 
 ### Investments
 
 Investments used all 4 CRUD functionalities -  `GET`, `POST`, `PUT`, and `DELETE`. I initially planned on creating a "followed" data table, but for the sake of time I chose to combine that with investments, using the investment table for both. I utilized  `GET` to load all investments made on the platform, `POST` to create an investment, `PUT` to update one(if a user wanted to invest more money into a product), and `DELETE` for if a user wanted to "unfollow" a product.
 
+![investment-example](https://i.imgur.com/sJCVXFZ.png)
+![investment-example](https://i.imgur.com/J0FMrIb.png)
+
 ### User/Session
 
 For users, I used all 4 CRUD functionalities -  `GET`, `POST`, `PUT`, and `DELETE`. `GET` to load all users and restore a user, `POST` to create and login users, `PUT` to update a user(primarily used to update a user's balance after depositing/withdrawing, and `DELETE` to delete a user.
+
+![user-example](https://i.imgur.com/6XjJ6T1.png)
+![user-example](https://i.imgur.com/I7AXboY.png)
+
 
 ## User Interactions
 
@@ -104,16 +121,16 @@ A user can:
 
 
 ## MUI Components Used:
--  Button
--  Modal
--  Box
--  Input
--  InputAdornment
--  AttachMoneyIcon
--  Snackbar
--  Tab
--  Tabs
--  Card(CardActions, CardContent, CardMedia)
+-  Button (Utilized on: Home/Login/SignUp/Product/Product Form/Update/Edit Update)
+-  Modal (Utilized on: Login/Signup/Edit Update/Purchase Coin/Fund Product)
+-  Box (Utilized on: Coin Purchase/Home/Login/Nav/Product Form/Edit Form/Fund/Update/Search/Signup)
+-  Input (Utilized on: Coin Purchase/Login/Product Form/Edit Form/Fund/Update/Search/Signup)
+-  InputAdornment (Utilized on: Coin Purchase/Fund)
+-  AttachMoneyIcon (Utilized on: Coin Purchase/Fund)
+-  Snackbar (Utilized on: Coin Purchase/Home/Fund/Update)
+-  Tab (Utilized on: Home/Product)
+-  Tabs(Utilized on: Home/Product)
+-  Card(CardActions, CardContent, CardMedia) (Utilized on: Home/Product/Product Form/Edit Form/Search)
 
 
 ## Challenges
