@@ -54,7 +54,7 @@ export const purchaseCoin = (purchase:CoinPurchaseAttributes) => async():Promise
   })
 
   if(res.ok){
-    return 'GOOD'
+    return res.status
   }
 }
 

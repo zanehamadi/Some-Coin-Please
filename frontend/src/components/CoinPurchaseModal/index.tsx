@@ -51,7 +51,7 @@ function CoinPurchaseModal({sessionUser}:any) {
     const res = await dispatch(purchaseCoin({id, amount})) 
     setProgress(50)
     //@ts-ignore
-    if(res === 'GOOD'){
+    if(res === +200){
       await dispatch(editUser({
         id,
         username: sessionUser.username,
