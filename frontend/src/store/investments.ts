@@ -34,7 +34,7 @@ const deleteInvestments = (id:number) => {
 
 
 export const loadInvestments = () => async (dispatch:any):Promise<any> => {
-  const res = await csrfFetch('/api/investments')
+  const res = await fetch('/api/investments')
   if(res.ok){
     const investments = await res.json();
     dispatch(getInvestments(investments))
