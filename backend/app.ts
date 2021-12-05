@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser'
 import {environment} from './config'
 import routes from './routes'
 import { ValidationError } from 'sequelize'
+import path from 'path'
 
 
 
@@ -16,6 +17,11 @@ const isProduction: boolean = environment === 'production';
 
 //  Setup app to use express
 const app = express();
+
+if (isProduction)
+    app.use(express.static(path.resolve(__dirname, '../frontend/build')));
+
+
 
 // Utilize middleware and other techs
 app.use(morgan('dev'));
@@ -47,6 +53,11 @@ app.use(
 app.use(routes)
 
 // Error handling O_O
+
+if(isProduction)
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, '../frontend/build', 'index.html'));
+    })
 
 export class GeneralError extends Error{
   title: string
