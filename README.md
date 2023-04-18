@@ -1,6 +1,5 @@
 # Some Coin, Please
 
-[Visit Some Coin, Please!](https://somecoinplease.herokuapp.com/) (Working Link)
 
 ## What is Some Coin, Please?
 
